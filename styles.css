@@ -1,8 +1,11 @@
 #indexbody{
   background-image: url("pictures/ArizonaRoad.jpg");
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
 }
 
-h1 {
+.topheader {
   font-family: Copperplate, 'Copperplate Gothic Light', fantasy;
   font-size: 70px;
   font-style: normal;
@@ -17,7 +20,6 @@ h1 {
   display: block;
   margin-left: auto;
   margin-right: auto;
-
 }
 
 .boxes{
@@ -49,6 +51,57 @@ h1 {
   border: dotted;
   height: 300px;
   text-align: right;
-  display: block;
+  display: inline-block;
+  vertical-align: text-top;
   margin-right: 10%;
+  padding: 20px;
+}
+
+#list{
+  height: 300px;
+  width: 30%;
+  text-align: left;
+  display: inline-block;
+  vertical-align: text-top;
+  margin-left: 20%;
+  padding: 20px;
+  font-size: 25px;
+}
+
+#home{
+  vertical-align: text-top;
+  border-style: dotted;
+  width: 40%;
+  padding: 15px;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#aboutbody{
+  background-color: #b3d9ff;
+}
+
+a:link{
+  color: black;
+}
+
+a:visited{
+  color: #666699;
+}
+
+@media screen and (max-width: 500px) {
+  .topheader{
+    font-size: 10px;
+  }
+  .boxes{
+    font-size: 10px;
+  }
+  #links{
+    font-size: 10px;
+  }
+  #list{
+    font-size: 12px;
+  }
 }
