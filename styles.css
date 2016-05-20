@@ -1,5 +1,14 @@
-body{
+#indexbody{
   background-image: url("pictures/ArizonaRoad.jpg");
+}
+
+h1 {
+  font-family: Copperplate, 'Copperplate Gothic Light', fantasy;
+  font-size: 70px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 26.4px;
 }
 
 #centered{
@@ -34,4 +43,12 @@ body{
   margin-right: auto;
   background-color: #ffffff;
   opacity: 0.6;
+}
+
+#ostrichpic{
+  border: dotted;
+  height: 300px;
+  text-align: right;
+  display: block;
+  margin-right: 10%;
 }
