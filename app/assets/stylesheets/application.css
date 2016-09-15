@@ -19,3 +19,7 @@ p {
   display: inline-block;
   margin: 10%;
 }
+
+.home-link {
+  margin-left: 2%;
+}
