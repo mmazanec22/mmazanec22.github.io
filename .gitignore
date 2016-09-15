@@ -46,3 +46,6 @@ bower.json
 
 plan.txt
 *.log
+/logs/*.log
+/log/*.log
+/log
