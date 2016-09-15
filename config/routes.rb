@@ -11,4 +11,10 @@ Rails.application.routes.draw do
 
   get '/stories', to: 'pages#stories', as: 'stories'
 
+  get '/sessions/new', to: 'sessions#new', as: 'new_session'
+
+  post '/sessions', to: 'sessions#create', as: 'create_session'
+
+  delete '/sessions/new', to: 'sessions#new', as: 'destroy_session'
+
 end

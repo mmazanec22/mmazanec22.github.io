@@ -1,1 +1,5 @@
-%h4 If you aren't me, then logging in is not going to work.  Because I am literally the only user.  Like, I didn't even bother to make a user model.  Why would you want to create blog posts on my personal site anyway?
+%p If you aren't me, then logging in is not going to work.  Because I am literally the only user.  Like, I didn't even bother to make a user model.  Why would you want to create blog posts on my personal site anyway?
+
+/ =form_tag create_session_path, method: post do
+/   =text_field_tag "password"
+/   =submit_tag "submit"
