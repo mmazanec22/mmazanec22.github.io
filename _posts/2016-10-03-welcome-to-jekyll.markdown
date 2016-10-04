@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rebuilt site?"
+title:  "Getting started with Jekyll"
 date:   2016-10-03 20:03:04 -0400
 categories: jekyll update
 ---
