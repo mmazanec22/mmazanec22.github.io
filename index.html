@@ -1,23 +1,27 @@
----
-layout: default
----
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="application.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Melanie Mazanec</title>
+</head>
+<body>
 
-<div class="home">
+  <h1 class="title">Melanie Mazanec</h1>
 
-  <h1 class="page-heading">Posts</h1>
+  <nav>
+    <ul>
+      <li class = "bio link">Bio</li>
+      <li class = "edu link">Education</li>
+      <li class = "exp link">Experience</li>
+    </ul>
+  </nav>
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+  <div class="info">
+    <p class = "bio">This is my bio</p>
+    <p class = "edu">Education things</p>
+    <p class = "exp">Experience things</p>
+  </div>
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title | escape }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
-</div>
+</body>
+</html>
