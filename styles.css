@@ -1,42 +1,54 @@
 html {
-  background-image: url("IMG_1333.jpg");
   background-size: 95vw 95vw;
   background-repeat: no-repeat;
   background-position: center top;
-  background-color: black;
+  /*background-color: black;*/
 }
 
 body{
-  margin-top: 1vw;
-  margin-left: 3vw;
-  margin-right: 3vw;
+  margin: 0;
+  padding: 0;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5vw;
+}
+
+.header{
+  width: 100%;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 3vw;
+  display: inline-block;
+  text-align: center;
+  background-color: #f4bf42;
 }
 
 .title {
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 3vw;
   letter-spacing: 2px;
-  font-size: 7vw;
+  font-size: 5vw;
+  display: inline-block;
+  margin-right: 5vw;
+}
+
+.headshot{
+  float: right;
+  width: 15vw;
+  border-radius: 100%;
+  margin-left: 5vw;
 }
 
 nav{
-  padding: 0;
-  margin: 0;
-  margin-top: 2vw;
-  text-align: center;
+  display: inline-block;
+  text-align: bottom;
 }
 
-nav ul{
-  margin: 0 auto;
+ul{
+  display: inline-block;
   list-style-type: none;
-  padding: 0;
-  width: 100%;
   letter-spacing: 1px;
+  text-align: bottom;
 }
 
-nav ul li{
+ul li{
   text-align: bottom;
   display: inline-block;
   padding-left: 1vw;
@@ -49,6 +61,10 @@ nav ul li{
   padding: 0;
   margin-top: 6vw;
   /*border: 1px solid black;*/
-  width: 60%;
-  font-size: 2vw;
+  width: 80%;
+  height: 50%;
+}
+
+footer{
+  background-color: #f4bf42;
 }
