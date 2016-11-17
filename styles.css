@@ -83,3 +83,24 @@ a{
 a:hover, .link:hover{
   color: gray;
 }
+
+.edu-table{
+  text-align: bottom;
+}
+
+.edu-table td{
+  width: 50%;
+}
+
+.edu-table-td-1 {
+  padding-right: 2%;
+}
+
+.experience-detail{
+  background-color: #f9e8b8;
+}
+
+.exp table tr td{
+  padding: 1vh;
+  border-radius: 60px;
+}
