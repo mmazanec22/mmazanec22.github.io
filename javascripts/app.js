@@ -47,7 +47,8 @@ $(document).ready(function(){
         ry = d3.randomNormal(height / 2 * (elapsed * delta), height);
   
         for (j = 1; j < replacePerFrame; j++, i = (i + 1) % numRandomPoints) {
-            points[i][0] = rx(), points[i][1] = ry();
+            points[i][0] = rx();
+            points[i][1] = ry();
         }
 
         hexagon = hexagon
