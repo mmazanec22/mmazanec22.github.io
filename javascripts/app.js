@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+    d3.select('#info .cv').style('visibility', 'hidden')
+
     d3.selectAll('#nav .link').on('click', function() {
         const clickedThing = d3.select(this)
         if (clickedThing.classed('bio')) {

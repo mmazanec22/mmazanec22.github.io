@@ -9,7 +9,7 @@ body {
     margin: 0 0 5%;
     padding: 0;
     font-family: Verdana, Geneva, sans-serif;
-    font-size: 1.5vw;
+    font-size: 1.3vw;
 }
 
 svg {
@@ -63,7 +63,6 @@ svg {
 }
 
 #info {
-    display: inline-block;
     margin: 0 auto;
     padding: 5%;
     width: 85%;
@@ -87,7 +86,8 @@ img.headshot {
 }
 
 #info .bio, #info .cv {
-    width: 80%;
+    width: 65%;
+    position: absolute;
 }
 
 
