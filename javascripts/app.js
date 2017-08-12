@@ -3,7 +3,9 @@ document.addEventListener("DOMContentLoaded", function() {
     d3.select('#info .cv').style('visibility', 'hidden')
 
     d3.selectAll('#nav .link').on('click', function() {
+
         const clickedThing = d3.select(this)
+
         if (clickedThing.classed('bio')) {
             d3.select('#info .cv').style('visibility', 'hidden')
             d3.select('#info .bio').style('visibility', 'visible')
@@ -11,8 +13,10 @@ document.addEventListener("DOMContentLoaded", function() {
             d3.select('#info .cv').style('visibility', 'visible')
             d3.select('#info .bio').style('visibility', 'hidden')
         }
+
     });
 
+    const timeToRun = 4000;
     const hexRadius = 30;
     const hexPadding = 0.5;
     const svg = d3.select('svg');
@@ -20,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const width = svg.style('width').replace('px', '');
     const height = svg.style('height').replace('px', '');
     const numRandomPoints = 2000; // Total number of random points.
-    const replacePerFrame = 20; // Number of points to replace per frame.
+    const replacePerFrame = 15; // Number of points to replace per frame.
     const color = d3.scaleSequential(d3.interpolateLab('#f7f7f4', '#0a8282'))
-        .domain([0, 5]);
+        .domain([0, 3]);
 
-    const delta = 0.002;
+    const delta = 0.001;
     let i = 1;
 
     let rx = d3.randomNormal(width / 2, width);
@@ -42,7 +46,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
             .attr('fill', function(d) { return color(d.length); });
 
-    d3.timer(function(elapsed) {
+    const t = d3.timer(function(elapsed) {
+
+        // d3.select('img').style('opacity', elapsed/timeToRun)
+
         rx = d3.randomNormal( (width / 2) * (elapsed * delta), (width / i));
         ry = d3.randomNormal(height / 2 * (elapsed * delta), height);
   
@@ -60,7 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr('d', hexbin.hexagon(hexRadius - hexPadding))
             .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
             .merge(hexagon)
-                .attr('fill', function(d) { return color(d.length); });
+                .attr('fill', function(d) { return color(d.length); })
+
+        if (elapsed > timeToRun) t.stop();
 
     }); // end timer funtion
 

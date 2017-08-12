@@ -9,15 +9,19 @@ body {
     margin: 0 0 5%;
     padding: 0;
     font-family: Verdana, Geneva, sans-serif;
-    font-size: 1.3vw;
+    font-size: 1.5vw;
 }
 
 svg {
     width: 100%;
     height: 100%;
-    position: absolute;
-    z-index: -2;
-    opacity: 0.5;
+    z-index: -1;
+    opacity: 0.4;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    position: fixed;
+    bottom: 0pt;
+    left: 0pt;
 }
 
 .header-footer {
@@ -56,7 +60,6 @@ svg {
 }
 
 #nav li{
-    /*text-align: bottom;*/
     display: inline-block;
     padding-left: 1vw;
     padding-right: 1vw;
@@ -71,8 +74,8 @@ svg {
 div.headshot {
     position: absolute;
     right: 5%;
-    width: 220px;
-    height: 220px;
+    width: 20vw;
+    height: 20vw;
     overflow: hidden;
     border-radius: 50%;
     display: inline-block;
@@ -86,7 +89,7 @@ img.headshot {
 }
 
 #info .bio, #info .cv {
-    width: 65%;
+    width: 60%;
     position: absolute;
     opacity: 0.9;
 }
@@ -124,11 +127,13 @@ img.headshot {
 }
 
 #footer {
+    margin-top: 5%;
     width: 100%;
-    position: absolute;
-    bottom: 0;
-    overflow: hidden;
-    min-height: 5%;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    position: fixed;
+    bottom: 0pt;
+    left: 0pt;
 }
 
 #footer-table {
@@ -141,4 +146,19 @@ img.headshot {
     text-decoration: none;
     color: #f7f7f4;
     letter-spacing: 1.5px;
+}
+
+@media only screen and (max-width: 800px) {
+    div.headshot {
+        position: relative;
+        left: 35%;
+        width: 25vw;
+        height: 25vw;
+    }
+    #info .bio, #info .cv{
+        width: 90%;
+    }
+    body {
+        font-size: 4vw;
+    }
 }
