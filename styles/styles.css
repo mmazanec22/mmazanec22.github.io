@@ -17,11 +17,13 @@ svg {
     height: 100%;
     position: absolute;
     z-index: -1;
+    opacity: 0.5;
 }
 
 .header-footer {
     background-color: #0a8282;
     color: #f7f7f4;
+    opacity: 0.5;
 }
 
 #header {
@@ -80,6 +82,40 @@ div.headshot {
 img.headshot {
     width: 100%;
     height: auto;
+    filter: grayscale(60%);
+}
+
+
+#info, #info td, #info a {
+    color: #f48341;
+    letter-spacing: 2px;
+
+}
+
+.cv a {
+    text-decoration: none;
+}
+
+.edu-table {
+    text-align: bottom;
+}
+
+.edu-table td {
+    width: 50%;
+}
+
+.edu-table-td-1 {
+    padding-right: 2%;
+}
+
+.exp table tr td {
+    padding: 1vh;
+    border-radius: 60px;
+}
+
+
+#footer a:hover, .link:hover {
+    color: #f48341;
 }
 
 #footer {
@@ -100,29 +136,4 @@ img.headshot {
     text-decoration: none;
     color: #f7f7f4;
     letter-spacing: 1.5px;
-}
-
-#footer a:hover, .link:hover {
-    color: gray;
-}
-
-.edu-table {
-    text-align: bottom;
-}
-
-.edu-table td {
-    width: 50%;
-}
-
-.edu-table-td-1 {
-    padding-right: 2%;
-}
-
-.experience-detail   {
-    background-color: #f9e8b8;
-}
-
-.exp table tr td {
-    padding: 1vh;
-    border-radius: 60px;
 }

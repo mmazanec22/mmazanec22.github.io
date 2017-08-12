@@ -1,16 +1,10 @@
 $(document).ready(function(){
-    $('p').hide()
-    $('p.bio').show()
-    $('li.link').on('click', function(){
-        $('p').hide()
-        var toShow = $(this).attr('class').split(' ')[0]
-        $('p.'+toShow).show()
-    })
 
-    $('.experience-detail').hide()
-    $('.experience').on('click', function(){
-        $(this).next('.experience-detail').toggle()
-    })
+    d3.selectAll('#nav .link').on('click', function() {
+        d3.select(this).style('color', 'red')
+    });
+
+
 
     const hexRadius = 30;
     const hexPadding = 0.5;
@@ -23,9 +17,8 @@ $(document).ready(function(){
     const color = d3.scaleSequential(d3.interpolateLab('#f7f7f4', '#0a8282'))
         .domain([0, 5]);
 
-    const delta = 0.001;
+    const delta = 0.002;
     let i = 0;
-    let j = 0;
 
     let rx = d3.randomNormal(width / 2, width);
     let ry = d3.randomNormal(height / 2, height);
@@ -43,10 +36,10 @@ $(document).ready(function(){
             .attr('fill', function(d) { return color(d.length); });
 
     d3.timer(function(elapsed) {
-        rx = d3.randomNormal(width / 2 * (elapsed * delta), width);
+        rx = d3.randomNormal( (width / 2) * (elapsed * delta), (width / i));
         ry = d3.randomNormal(height / 2 * (elapsed * delta), height);
   
-        for (j = 1; j < replacePerFrame; j++, i = (i + 1) % numRandomPoints) {
+        for (let j = 1; j < replacePerFrame; j++, i = (i + 4) % numRandomPoints) {
             points[i][0] = rx();
             points[i][1] = ry();
         }
