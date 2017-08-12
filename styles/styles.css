@@ -9,7 +9,7 @@ body {
     margin: 0 0 5%;
     padding: 0;
     font-family: Verdana, Geneva, sans-serif;
-    font-size: 2vw;
+    font-size: 1.5vw;
 }
 
 svg {
@@ -70,12 +70,13 @@ svg {
 }
 
 div.headshot {
+    position: absolute;
+    right: 5%;
     width: 220px;
     height: 220px;
     overflow: hidden;
     border-radius: 50%;
-    float: right;
-    display: block;
+    display: inline-block;
     border: 2px solid #0a8282;
 }
 
@@ -85,10 +86,15 @@ img.headshot {
     filter: grayscale(60%);
 }
 
+#info .bio, #info .cv {
+    width: 80%;
+}
+
 
 #info, #info td, #info a {
     color: #f48341;
     letter-spacing: 2px;
+    opacity: 0.8;
 
 }
 

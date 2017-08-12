@@ -1,10 +1,15 @@
 $(document).ready(function(){
 
     d3.selectAll('#nav .link').on('click', function() {
-        d3.select(this).style('color', 'red')
+        const clickedThing = d3.select(this)
+        if (clickedThing.classed('bio')) {
+            d3.select('#info .cv').style('visibility', 'hidden')
+            d3.select('#info .bio').style('visibility', 'visible')
+        } else {
+            d3.select('#info .cv').style('visibility', 'visible')
+            d3.select('#info .bio').style('visibility', 'hidden')
+        }
     });
-
-
 
     const hexRadius = 30;
     const hexPadding = 0.5;
