@@ -1,4 +1,4 @@
-$(document).ready(function(){
+document.addEventListener("DOMContentLoaded", function() {
 
     d3.selectAll('#nav .link').on('click', function() {
         const clickedThing = d3.select(this)
@@ -62,4 +62,4 @@ $(document).ready(function(){
 
     }); // end timer funtion
 
-}) // end all javascript
+});
