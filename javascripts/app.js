@@ -18,7 +18,7 @@ $(document).ready(function(){
         .domain([0, 5]);
 
     const delta = 0.002;
-    let i = 0;
+    let i = 1;
 
     let rx = d3.randomNormal(width / 2, width);
     let ry = d3.randomNormal(height / 2, height);
