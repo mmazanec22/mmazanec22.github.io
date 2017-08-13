@@ -1,15 +1,14 @@
 html {
-    background-size: 95vw 95vw;
     background-color: #f7f7f4;
-    position: relative;
-    min-height: 100%;
+    height: 100%;
 }
 
 body {
-    margin: 0 0 5%;
-    padding: 0;
     font-family: Verdana, Geneva, sans-serif;
     font-size: 1.5vw;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0;
 }
 
 svg {
@@ -69,6 +68,7 @@ svg {
     margin: 0 auto;
     padding: 5%;
     width: 85%;
+    min-height: 80%;
 }
 
 div.headshot {
@@ -127,13 +127,8 @@ img.headshot {
 }
 
 #footer {
-    margin-top: 5%;
     width: 100%;
-    background-attachment: scroll;
-    background-position: 0% 0%;
-    position: fixed;
-    bottom: 0pt;
-    left: 0pt;
+    height: 4vh;
 }
 
 #footer-table {
@@ -159,6 +154,6 @@ img.headshot {
         width: 90%;
     }
     body {
-        font-size: 4vw;
+        font-size: 3vw;
     }
 }
