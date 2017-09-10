@@ -1,6 +1,7 @@
 html, body {
     background-color: #f7f7f4;
     height: 100%;
+    width: 100%;
     font-family: Verdana, Geneva, sans-serif;
     font-size: 1.25vw;
     margin: 0;
@@ -26,7 +27,7 @@ a {
 
 #header {
     display: inline-block;
-    min-height: 10%;
+    min-height: 10vh;
     width: 100%;
 }
 
@@ -165,17 +166,39 @@ img.headshot {
     color: #520177;
 }
 
-@media only screen and (max-width: 825px) {
-    div.headshot {
-        position: relative;
-        left: 35%;
-        width: 25vw;
-        height: 25vw;
-    }
-    #info .bio, #info .cv{
-        width: 90%;
-    }
+@media only screen and (max-width: 500px) {
     body {
         font-size: 3vw;
+    }
+    #info-background {
+        background-color: #f7f7f4;
+        position: absolute;
+        opacity: 0.8;
+        left: 0%;
+        top: 30%;
+        padding: 0%;
+        margin: 7.5vw;
+        width: 85vw;
+        height: 120vh;
+    }
+    #info {
+        position: absolute;
+        top: 30%;
+        height: 100vh;
+        left: 0%;
+        padding: 0%;
+        margin: 10vw;
+        width: 80vw;
+    }
+    div.headshot {
+        position: absolute;
+        left: 40vw;
+        top: 17vh;
+        width: 20vw;
+        height: 20vw;
+        overflow: hidden;
+        border-radius: 50%;
+        display: inline-block;
+        border: 2px solid #0a8282;
     }
 }
