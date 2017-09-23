@@ -1,17 +1,17 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    d3.select('#info .cv').style('visibility', 'hidden')
+    d3.select('#info .cv').style('display', 'none')
 
     d3.selectAll('#nav .link').on('click', function() {
 
         const clickedThing = d3.select(this)
 
         if (clickedThing.classed('bio')) {
-            d3.select('#info .cv').style('visibility', 'hidden')
-            d3.select('#info .bio').style('visibility', 'visible')
+            d3.select('#info .cv').style('display', 'none')
+            d3.select('#info .bio').style('display', 'unset')
         } else {
-            d3.select('#info .cv').style('visibility', 'visible')
-            d3.select('#info .bio').style('visibility', 'hidden')
+            d3.select('#info .cv').style('display', 'unset')
+            d3.select('#info .bio').style('display', 'none')
         }
 
     });
