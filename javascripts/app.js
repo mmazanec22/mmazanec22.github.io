@@ -27,8 +27,8 @@ function renderHexbins() {
     const parentDiv = d3.select('#hexbin-div');
     const width = svg.style('width').replace('px', '');
     const height = svg.style('height').replace('px', '');
-    const minRadius = 40;
-    const maxRadius = 70;
+    let minRadius = 30;
+    let maxRadius = 60;
 
     d3.selectAll('.hexGroup').remove()
 
@@ -41,19 +41,18 @@ function renderHexbins() {
 
     const dataset = [];
 
-    let numPoints = (width * height) / 100
+    let numPoints = (width * height) / 150
     numPoints = width > 2000 ? numPoints * 3 : numPoints
     numPoints = width > 1400 ? numPoints * 2 : numPoints
     if (width < 450) {
-        numPoints = numPoints / 2
-        minRadius = minRadius / 2
-        maxRadius = maxRadius / 2
+        minRadius = minRadius * 0.85
+        maxRadius = maxRadius  * 0.85
     }
 
     for (let i = 0; i < numPoints; i++) {
         dataset.push({
             start: [getRandomInt(0, width * 0.6), getRandomInt(0, height)],
-            middle: [getRandomInt(width * 0.2, width * 0.7), getRandomInt(0, height)],
+            middle: [getRandomInt(0, width * 0.9), getRandomInt(0, height)],
             end: [getRandomInt(width * 0.5, width), getRandomInt(0, height)],
         });
     }
@@ -83,7 +82,7 @@ function renderHexbins() {
             })
             .attr('fill', d => options[d.key])
             .attr('stroke', 'none')
-            .attr('fill-opacity', 0.3)
+            .attr('fill-opacity', 0.25)
     
 }
 
