@@ -105,7 +105,7 @@ img.headshot {
     padding: 1rem;
     margin: 0 auto;
     width: 62vw;
-    height: 120vh;
+    height: 80vh;
 }
 
 #info {
@@ -161,6 +161,15 @@ img.headshot {
 
 #footer a:hover, .link:hover {
     color: #520177;
+}
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+    #info-background {
+        height: 120vh;
+    }
 }
 
 @media only screen and (max-width: 650px) {

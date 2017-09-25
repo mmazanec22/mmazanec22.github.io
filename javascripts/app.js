@@ -38,9 +38,12 @@ function renderHexbins() {
 
 
     const dataset = [];
-    let numPoints = width < 600 ? width : width * 2
-    numPoints = width < 450 ? width * 0.3 : width
-    numPoints = width > 1440 ? width * 8 : numPoints
+
+    let numPoints = (width * height) / 300
+    numPoints = width > 2000 ? numPoints * 3 : numPoints
+    numPoints = width > 1400 ? numPoints * 2 : numPoints
+    numPoints = width < 450 ? numPoints / 2 : numPoints
+
     for (let i = 0; i < numPoints; i++) {
         dataset.push({
             start: [getRandomInt(0, width * 0.6), getRandomInt(0, height)],
@@ -50,8 +53,9 @@ function renderHexbins() {
     }
 
     const keys = Object.keys(dataset[0]);
-    const minRadius = 60;
-    const maxRadius = 90;
+
+    const minRadius = 40;
+    const maxRadius = 70;
 
     const hexbin = hackedBin(keys)
         .radius(maxRadius);
