@@ -1,3 +1,11 @@
+/*
+TODO:
+    re-hexbin on resize?
+
+*/
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
 
     d3.select('#info .cv').style('display', 'none')
@@ -79,17 +87,5 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
     }); // end timer funtion
-
-
-    // on click of my curiosity, make a path
-    // add those words to the path
-    // as mouse moves, add one letter at a time, starting with preceeding 
-
-    // create path
-    // const lineGenerator = d3.line()
-    //     .curve(d3.curveCardinal);
-
-    // let points = []
-    // as mouse moves, add pause coordinates to points-- draw curve in between
 
 });
