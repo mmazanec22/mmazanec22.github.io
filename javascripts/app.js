@@ -1,11 +1,3 @@
-/*
-TODO:
-    re-hexbin on resize?
-
-*/
-
-
-
 document.addEventListener("DOMContentLoaded", function() {
 
     d3.select('#info .cv').style('display', 'none')
@@ -23,69 +15,196 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
     });
+    renderHexbins()
+});
 
-    const timeToRun = 3000;
-    const hexRadius = 20;
+window.addEventListener("resize", function() {
+    renderHexbins()
+});
+
+function renderHexbins() {
     const svg = d3.select('svg');
-    const svgDiv = d3.select('#hexbin-div');
+    const parentDiv = d3.select('#hexbin-div');
     const width = svg.style('width').replace('px', '');
     const height = svg.style('height').replace('px', '');
-    const numRandomPoints = 2000; // Total number of random points.
-    const replacePerFrame = 15; // Number of points to replace per frame.
-    const color = d3.scaleSequential(d3.interpolateLab('#f7f7f4', '#0a8282'))
-        .domain([0, 3]);
 
-    const delta = 0.001;
-    let i = 1;
+    d3.selectAll('.hexGroup').remove()
 
-    let rx = d3.randomNormal(width / 10, width / 2);
-    let ry = d3.randomNormal(height / 2, height);
-    let points = d3.range(numRandomPoints).map(function() { return [rx(), ry()]; });
+    const options = {
+        end: '#fed762',
+        middle: '#f98423',
+        start: '#fd5923',
+    };
 
-    var hexbin = d3.hexbin()
-        .radius(hexRadius)
-        .extent([[0, 0], [width, height]]);
 
-    var hexagon = svg.selectAll('path')
-        .data(hexbin(points))
+    const dataset = [];
+    let numPoints = width < 600 ? width : width * 2
+    numPoints = width < 450 ? width * 0.3 : width
+    numPoints = width > 1440 ? width * 8 : numPoints
+    for (let i = 0; i < numPoints; i++) {
+        dataset.push({
+            start: [getRandomInt(0, width * 0.6), getRandomInt(0, height)],
+            middle: [getRandomInt(width * 0.2, width * 0.7), getRandomInt(0, height)],
+            end: [getRandomInt(width * 0.5, width), getRandomInt(0, height)],
+        });
+    }
+
+    const keys = Object.keys(dataset[0]);
+    const minRadius = 60;
+    const maxRadius = 90;
+
+    const hexbin = hackedBin(keys)
+        .radius(maxRadius);
+
+    const hexData = hexbin(dataset);
+
+    const radius = d3.scaleLinear()
+        .domain([0, hexData.length / 2])
+        .range([minRadius, maxRadius]);
+
+    const hexGroup = svg.append('g')
+        .attr('class', 'hexgroup')
+
+    hexGroup.selectAll('path')
+        .data(hexData)
         .enter().append('path')
-            .attr('d', hexbin.hexagon(hexRadius))
-            .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
-            .attr('fill', function(d) { return color(d.length); });
+            .attr('transform', d => `translate(${d.x}, ${d.y})`)
+            .attr('d', (d) => {
+                const thisRadius = radius(d.length);
+                return hexbin.hexagon(thisRadius);
+            })
+            .attr('fill', d => options[d.key])
+            .attr('stroke', 'none')
+            .attr('fill-opacity', 0.3)
+    
+}
 
-    const t = d3.timer(function(elapsed) {
+function getRandomInt(min, max) {
+    return Math.random() * (max - min + 1) + min;
+}
 
-        rx = d3.randomNormal( (width / 2) * (elapsed * delta), (width / i));
-        ry = d3.randomNormal(height / 2 * (elapsed * delta), height);
-  
-        for (let j = 1; j < replacePerFrame; j++, i = (i + 4) % numRandomPoints) {
-            points[i][0] = rx();
-            points[i][1] = ry();
+function hackedBin(keys) {
+    let self = this;
+
+    var d3_hexbinAngles = d3.range(0, 2 * Math.PI, Math.PI / 3),
+    d3_hexbinX = function(d) { return d[0]; },
+    d3_hexbinY = function(d) { return d[1]; };
+
+    var width = 1,
+        height = 1,
+        r,
+        x = d3_hexbinX,
+        y = d3_hexbinY,
+        dx,
+        dy;
+
+    function hexbin(points) {
+    // for each point, loop through and do this with both the source and dest (checking for existence first)
+
+        var binsById = {};
+
+        points.forEach(function(point, i) {
+
+            keys.forEach(function(key) {
+
+                const pointSvgCoords = point[key]
+                if (!pointSvgCoords) { return; }
+
+                var py = y.call(hexbin, pointSvgCoords, i) / dy, pj = Math.round(py),
+                    px = x.call(hexbin, pointSvgCoords, i) / dx - (pj & 1 ? .5 : 0), pi = Math.round(px),
+                    py1 = py - pj;
+
+                if (Math.abs(py1) * 3 > 1) {
+                    var px1 = px - pi,
+                        pi2 = pi + (px < pi ? -1 : 1) / 2,
+                        pj2 = pj + (py < pj ? -1 : 1),
+                        px2 = px - pi2,
+                        py2 = py - pj2;
+                    if (px1 * px1 + py1 * py1 > px2 * px2 + py2 * py2) pi = pi2 + (pj & 1 ? 1 : -1) / 2, pj = pj2;
+                }
+
+                var id = pi + "-" + pj + "-" + key;
+                var bin = binsById[id];
+
+                if (bin) {
+                    bin.id = id;
+                    bin.push(point)
+                } else {
+                    bin = binsById[id] = [point];
+                    bin.id = id;
+                    bin.key = key
+                    bin.i = pi;
+                    bin.j = pj;
+                    bin.x = (pi + (pj & 1 ? 1 / 2 : 0)) * dx;
+                    bin.y = pj * dy;
+                }
+            })
+
+        });
+
+        return d3.values(binsById);
+    }
+
+    function hexagon(radius) {
+        var x0 = 0, y0 = 0;
+        return d3_hexbinAngles.map(function(angle) {
+            var x1 = Math.sin(angle) * radius,
+                y1 = -Math.cos(angle) * radius,
+                dx = x1 - x0,
+                dy = y1 - y0;
+                x0 = x1, y0 = y1;
+            return [dx, dy];
+        });
+    }
+
+    hexbin.x = function(_) {
+        if (!arguments.length) return x;
+        x = _;
+        return hexbin;
+    };
+
+    hexbin.y = function(_) {
+        if (!arguments.length) return y;
+        y = _;
+        return hexbin;
+    };
+
+    hexbin.hexagon = function(radius) {
+        if (arguments.length < 1) radius = r;
+        return "m" + hexagon(radius).join("l") + "z";
+    };
+
+    hexbin.centers = function() {
+        var centers = [];
+        for (var y = 0, odd = false, j = 0; y < height + r; y += dy, odd = !odd, ++j) {
+            for (var x = odd ? dx / 2 : 0, i = 0; x < width + dx / 2; x += dx, ++i) {
+                var center = [x, y];
+                center.i = i;
+                center.j = j;
+                centers.push(center);
+            }
         }
+        return centers;
+    };
 
-        hexagon = hexagon
-            .data(hexbin(points), function(d) { return d.x + ',' + d.y; });
+    hexbin.mesh = function() {
+        var fragment = hexagon(r).slice(0, 4).join("l");
+        return hexbin.centers().map(function(p) { return "M" + p + "m" + fragment; }).join("");
+    };
 
-        hexagon.exit().remove();
+    hexbin.size = function(_) {
+        if (!arguments.length) return [width, height];
+        width = +_[0], height = +_[1];
+        return hexbin;
+    };
 
-        hexagon = hexagon.enter().append('path')
-            .attr('d', hexbin.hexagon(hexRadius))
-            .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
-            .merge(hexagon)
-                .attr('stroke', function(d) { return color(d.length); })
-                .attr('fill', function(d) { return color(d.length); })
-                .attr('fill-opacity', 0.3)
-                .attr('stroke-opacity', 0.4)
-                .attr('opacity', 0.6 / (elapsed / timeToRun))
+    hexbin.radius = function(_) {
+        if (!arguments.length) return r;
+        r = +_;
+        dx = r * 2 * Math.sin(Math.PI / 3);
+        dy = r * 1.5;
+        return hexbin;
+    };
 
-        if (elapsed > timeToRun) {
-            t.stop();
-            // hexagon
-            //     .transition()
-            //     .duration(2000)
-            //     .style('opacity', 0.5)
-        }
-
-    }); // end timer funtion
-
-});
+    return hexbin.radius(1);
+}
