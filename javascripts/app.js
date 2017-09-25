@@ -27,8 +27,8 @@ function renderHexbins() {
     const parentDiv = d3.select('#hexbin-div');
     const width = svg.style('width').replace('px', '');
     const height = svg.style('height').replace('px', '');
-    let minRadius = 30;
-    let maxRadius = 60;
+    let minRadius = 40;
+    let maxRadius = 70;
 
     d3.selectAll('.hexGroup').remove()
 
