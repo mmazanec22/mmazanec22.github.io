@@ -27,6 +27,8 @@ function renderHexbins() {
     const parentDiv = d3.select('#hexbin-div');
     const width = svg.style('width').replace('px', '');
     const height = svg.style('height').replace('px', '');
+    const minRadius = 40;
+    const maxRadius = 70;
 
     d3.selectAll('.hexGroup').remove()
 
@@ -39,10 +41,14 @@ function renderHexbins() {
 
     const dataset = [];
 
-    let numPoints = (width * height) / 200
+    let numPoints = (width * height) / 100
     numPoints = width > 2000 ? numPoints * 3 : numPoints
     numPoints = width > 1400 ? numPoints * 2 : numPoints
-    numPoints = width < 450 ? numPoints / 2 : numPoints
+    if (width < 450) {
+        numPoints = numPoints / 2
+        minRadius = minRadius / 2
+        maxRadius = maxRadius / 2
+    }
 
     for (let i = 0; i < numPoints; i++) {
         dataset.push({
@@ -54,8 +60,6 @@ function renderHexbins() {
 
     const keys = Object.keys(dataset[0]);
 
-    const minRadius = 40;
-    const maxRadius = 70;
 
     const hexbin = hackedBin(keys)
         .radius(maxRadius);
