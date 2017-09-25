@@ -39,7 +39,7 @@ function renderHexbins() {
 
     const dataset = [];
 
-    let numPoints = (width * height) / 300
+    let numPoints = (width * height) / 200
     numPoints = width > 2000 ? numPoints * 3 : numPoints
     numPoints = width > 1400 ? numPoints * 2 : numPoints
     numPoints = width < 450 ? numPoints / 2 : numPoints
