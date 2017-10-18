@@ -16,11 +16,42 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
     renderHexbins()
+    stickFooterToBottom()
 });
 
 window.addEventListener("resize", function() {
     renderHexbins()
+    stickFooterToBottom()
 });
+
+
+
+function stickFooterToBottom() {
+    document.body.style.height = "100%";
+    document.body.style.width = "100%";
+
+    var winHeight = window.innerHeight;
+    var winWidth = window.innerWidth;
+    var bodyHeight = document.body.offsetHeight;
+    var bodyWidth = document.body.offsetWidth;
+    var footerDiv = document.getElementById("footer");
+    var footerHeight = footerDiv.offsetHeight;
+
+    if(winHeight > bodyHeight)
+    {
+        footerDiv.style.position = "absolute";
+        footerDiv.style.bottom = "0px";
+        document.body.style.height = winHeight + "px";
+        footerDiv.style.width = bodyWidth + "px";
+
+    } 
+    else {
+        footerDiv.style.position = "static";
+        footerDiv.style.width = bodyWidth + "px";
+    }
+}
+
+
 
 function renderHexbins() {
     const svg = d3.select('svg');
