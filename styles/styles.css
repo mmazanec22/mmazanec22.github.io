@@ -27,15 +27,15 @@ a {
 
 #header {
     display: inline-block;
-    height: 15vh;
+    height: 5rem;
     width: 100vw;
 }
 
 #header h1 {
     display: inline-block;
-    font-size: 2.25rem;
+    font-size: 2rem;
     font-weight: bolder;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.1vh;
     margin-left: 5vw;
     text-align: left;
     width: 50vw;
@@ -49,6 +49,7 @@ a {
 }
 
 #nav {
+    font-size: 1rem;
     cursor: pointer;
     font-weight: lighter;
     letter-spacing: .1rem;
@@ -105,12 +106,14 @@ img.headshot {
     padding: 1rem;
     margin: 0 auto;
     width: 62vw;
-    height: 80vh;
+    z-index: 0;
+    height: 90vh;
+    overflow: hidden;
 }
 
 #info {
     position: absolute;
-    height: 65vh;
+    height: 90vh;
     left: 2rem;
     padding: 1rem;
     margin: 0 auto;

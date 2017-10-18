@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
     renderHexbins()
+    makeSidebar()
     stickFooterToBottom()
 });
 
@@ -23,8 +24,6 @@ window.addEventListener("resize", function() {
     renderHexbins()
     stickFooterToBottom()
 });
-
-
 
 function stickFooterToBottom() {
     document.body.style.height = "100%";
@@ -50,8 +49,6 @@ function stickFooterToBottom() {
         footerDiv.style.width = bodyWidth + "px";
     }
 }
-
-
 
 function renderHexbins() {
     const svg = d3.select('svg');
@@ -113,8 +110,7 @@ function renderHexbins() {
             })
             .attr('fill', d => options[d.key])
             .attr('stroke', 'none')
-            .attr('fill-opacity', 0.25)
-    
+            .attr('fill-opacity', 0.25) 
 }
 
 function getRandomInt(min, max) {
