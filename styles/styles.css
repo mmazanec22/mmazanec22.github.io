@@ -118,6 +118,11 @@ img.headshot {
     letter-spacing: 2px;
 }
 
+#timeline{
+    height: 10%;
+    width: 100%;
+}
+
 .edu-table {
     text-align: bottom;
     height: 30vh;
