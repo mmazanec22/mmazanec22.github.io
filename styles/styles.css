@@ -21,29 +21,29 @@ a {
 .header-footer {
     background-color: #00ccc5;
     color: #f7f7f4;
-    opacity: 1;
+    opacity: 0.7;
     z-index: 1;
 }
 
 #header {
     display: inline-block;
-    height: 5rem;
+    height: 6rem;
     width: 100vw;
 }
 
 #header h1 {
     display: inline-block;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: bolder;
     letter-spacing: 0.1vh;
     margin-left: 5vw;
     text-align: left;
-    width: 50vw;
+    width: 60vw;
 }
 
 #navcontainer {
     display: inline-block;
-    margin-right: 5vw;
+    right: 5rem;
     text-align: right;
     width: 20vw;
 }
@@ -63,7 +63,7 @@ a {
 }
 
 #hexbin-div {
-    height: 100vh;
+    height: 90vh;
     position: absolute;
     z-index: -1;
 }
@@ -96,19 +96,6 @@ img.headshot {
     width: 100%;
     height: auto;
     filter: grayscale(60%);
-}
-
-#info-background {
-    background-color: #f7f7f4;
-    position: absolute;
-    opacity: 0.8;
-    left: 2rem;
-    padding: 1rem;
-    margin: 0 auto;
-    width: 62vw;
-    z-index: 0;
-    height: 90vh;
-    overflow: hidden;
 }
 
 #info {
@@ -163,6 +150,15 @@ img.headshot {
   and (min-device-width: 768px) 
   and (max-device-width: 1024px) 
   and (-webkit-min-device-pixel-ratio: 1) {
+    #header {
+        display: inline-block;
+        height: 6rem;
+        width: 100vw;
+    }
+    #header h1 {
+        font-size: 2rem;
+        width: 40vw;
+    }
     #info-background {
         height: 120vh;
     }
@@ -178,33 +174,20 @@ img.headshot {
     }
     #header {
         display: inline-block;
-        height: 25%;
+        height: 6.5rem;
         width: 100vw;
-        min-height: 110px;
     }
     #header h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
         width: 40vw;
-    }
-    #info-background {
-        background-color: #f7f7f4;
-        position: absolute;
-        opacity: 0.8;
-        left: 0%;
-        padding: 0%;
-        top: 25%;
-        margin-left: 7.5vw;
-        width: 85vw;
-        height: 160%;
-        z-index: 0;
     }
     #info {
         position: absolute;
-        top: 20vh;
+        top: 6.25rem;
         height: 120vh;
-        left: 0%;
+        left: 1rem;
         padding: 0%;
-        margin: 10vw;
+        margin: 1rem;
         width: 80vw;
     }
     div.headshot {

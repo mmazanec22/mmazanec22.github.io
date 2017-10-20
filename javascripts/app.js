@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
     renderHexbins()
-    makeSidebar()
     stickFooterToBottom()
 });
 
@@ -24,6 +23,25 @@ window.addEventListener("resize", function() {
     renderHexbins()
     stickFooterToBottom()
 });
+
+const cvEvents = [
+    {
+        'event': 'Interlochen Arts Academy',
+        'daterange': ['8/2006', '5/2007']
+    },
+    {
+        'event': 'Utrecht Conservatory',
+        'daterange': ['8/2007', '6/2008']
+    },
+    {
+        'event': 'Oberlin Conservatory',
+        'daterange': ['9/2008', '12/2011']
+    },
+    {
+
+    }
+
+]
 
 function stickFooterToBottom() {
     document.body.style.height = "100%";
@@ -61,9 +79,9 @@ function renderHexbins() {
     d3.selectAll('.hexGroup').remove()
 
     const options = {
-        end: '#fed762',
-        middle: '#f98423',
-        start: '#fd5923',
+        group1: '#00ccc5',
+        group2: '#f98423',
+        group3: '#fed762',
     };
 
 
@@ -73,16 +91,22 @@ function renderHexbins() {
     numPoints = width > 2000 ? numPoints * 3 : numPoints
     numPoints = width > 1400 ? numPoints * 2 : numPoints
     if (width < 450) {
-        minRadius = minRadius * 0.85
-        maxRadius = maxRadius  * 0.85
+        minRadius = minRadius * 0.75
+        maxRadius = maxRadius  * 0.75
     }
 
     for (let i = 0; i < numPoints; i++) {
-        dataset.push({
-            start: [getRandomInt(0, width * 0.6), getRandomInt(0, height)],
-            middle: [getRandomInt(0, width * 0.9), getRandomInt(0, height)],
-            end: [getRandomInt(width * 0.5, width), getRandomInt(0, height)],
-        });
+        if (i % 300 === 0) {
+            dataset.push({
+                group1: [getRandomInt(0, width), getRandomInt(0, height)],
+                group2: [getRandomInt(0, width), getRandomInt(0, height)],
+                group3: [getRandomInt(0, width), getRandomInt(0, height)],
+            });
+        } else {
+            dataset.push({
+                group3: [getRandomInt(0, width), getRandomInt(0, height)],
+            });
+        }
     }
 
     const keys = Object.keys(dataset[0]);
@@ -109,8 +133,9 @@ function renderHexbins() {
                 return hexbin.hexagon(thisRadius);
             })
             .attr('fill', d => options[d.key])
-            .attr('stroke', 'none')
-            .attr('fill-opacity', 0.25) 
+            .attr('stroke', d => options[d.key])
+            .attr('stroke-opacity', 0.4)
+            .attr('fill-opacity', 0.025) 
 }
 
 function getRandomInt(min, max) {
