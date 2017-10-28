@@ -117,8 +117,8 @@ function cvTimeline() {
         .style('stroke', '#787882');
 
     const brush = d3.brushX()
-        .extent([[0, 0], [width, height]])
-        .on('start brush end', brushed);
+        .extent([[0, 0 - height / 2], [width, height * 2]])
+        .on('end', brushed);
 
     svg.append('g')
         .attr('transform', `translate(${sideMargin},${topMargin / 2})`)
@@ -160,12 +160,12 @@ function cvTimeline() {
         console.log(d0)
         console.log(d1)
 
-        // if (d1[0] >= d1[1]) {
-        //     d1[0] = d3.timeYear.floor(d0[0]);
-        //     d1[1] = d3.timeYear.offset(d1[0]);
-        // }
+        if (d1[0] >= d1[1]) {
+            d1[0] = d3.timeYear.floor(d0[0]);
+            d1[1] = d3.timeYear.offset(d1[0]);
+        }
 
-        // d3.select(this).transition().call(d3.event.target.move, d1.map(x));
+        d3.select(this).transition().call(d3.event.target.move, d1.map(x));
         }
 }
 
