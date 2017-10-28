@@ -65,8 +65,16 @@ const cvEvents = [
         'daterange': ['09/2014', '05/2016']
     },
     {
+        'event': 'CSU brass quintet and El Sistema scholarship',
+        'daterange': ['09/2014', '05/2015']
+    },
+    {
         'event': 'Resource development research intern at United Way',
         'daterange': ['10/2014', '05/2015']
+    },
+    {
+        'event': 'Graduate assistant',
+        'daterange': ['01/2015', '06/2016']
     },
     {
         'event': 'Dev Bootcamp',
@@ -199,6 +207,8 @@ function cvTimeline() {
                 d.y = d.layerNum * remSize + remSize * 1.5
                 return d.y
             })
+            .attr("rx", remSize / 4)
+            .attr("ry", remSize / 4)
             .style('fill', d => eventColors[d.layerNum])
             .style('stroke', d => eventColors[d.layerNum])
 
