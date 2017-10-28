@@ -86,14 +86,14 @@ function cvTimeline() {
         dateFromSlashy(cvEvents[cvEvents.length - 1].daterange[1]),
     ]
 
-    const x = d3.scaleLinear()
+    const x = d3.scaleTime()
         .domain(dateDomain)
-        .range([sideMargin, parentWidth - sideMargin])
+        .rangeRound([sideMargin, parentWidth - sideMargin])
 
     const xAxis = d3.axisBottom()
         .scale(x)
-        .ticks(30)
-        .tickFormat(d => `${new Date(d).toLocaleDateString('en-US', {month: 'numeric'})}`);
+        .ticks(d3.timeYear, 1)
+        .tickFormat(d => `${new Date(d).toLocaleDateString('en-US', {year: 'numeric'})}`);
 
     const xAxisElements = svg.append('g')
         .attr('class', 'x axis')
@@ -154,50 +154,49 @@ function cvTimeline() {
 
         // TODO: REWORK THIS LOGIC SO IT GETS BRUSH EVENT
 
-        console.log('ended')
-        if (d3.event.selection === null) {
-            return;
-        } else {
-            console.log('else')
-            const inputBrushExtent = d3.event.selection
+        if (!d3.event.sourceEvent) return; // Only transition after input.
+        if (!d3.event.selection) return; // Ignore empty selections.
 
-            const fakeLayout = d3.histogram()
-                .thresholds(x.ticks(30))
-                .value(d => new Date(d));
+        console.log('else')
+        const inputBrushExtent = d3.event.selection
+        console.log(inputBrushExtent)
 
-            const candidateBars = fakeLayout(inputBrushExtent)
-                .filter((barBin, index, originalArray) => {
-                    const thisBarContains = barBin.length > 0;
-                    const prevBarContains = index > 0 ? (originalArray[index - 1].length > 0) : false;
-                    const nextBarContains = index < originalArray.length - 1 ? (originalArray[index + 1].length > 0) : false;
-                    return thisBarContains || prevBarContains || nextBarContains;
-                });
+        const fakeLayout = d3.histogram()
+            .thresholds(x.ticks(30))
+            .value(d => new Date(d));
 
-            const barsWithX = candidateBars.map(d => d.x);
-            const xInterval = candidateBars[0].x0;
+        const candidateBars = fakeLayout(inputBrushExtent)
+            .filter((barBin, index, originalArray) => {
+                const thisBarContains = barBin.length > 0;
+                const prevBarContains = index > 0 ? (originalArray[index - 1].length > 0) : false;
+                const nextBarContains = index < originalArray.length - 1 ? (originalArray[index + 1].length > 0) : false;
+                return thisBarContains || prevBarContains || nextBarContains;
+            });
 
-            if (barsWithX.length < 6) {
-                // Edge case of last bar
-                barsWithX.push(barsWithX[barsWithX.length - 1] + xInterval);
-            }
+        const barsWithX = candidateBars.map(d => d.x);
+        const xInterval = candidateBars[0].x0;
 
-            const leftBarTime = closest(inputBrushExtent[0], barsWithX);
-            const rightBarTime = closest(inputBrushExtent[1], barsWithX);
-            const leftBarX = x(leftBarTime);
-            // Edge case of user moving brush all the way to the left
-            const rightBarX = leftBarTime === rightBarTime ? x(rightBarTime + xInterval) : x(rightBarTime)
-
-            console.log(leftBarX)
-            console.log(rightBarX)
-
-            svg.selectAll('.brush rect')
-                .transition()
-                .duration(500)
-                .attr('x', leftBarX)
-                .attr('width', `${rightBarX - leftBarX}px`);
-
-            brush.extent([leftBarTime, rightBarTime]);
+        if (barsWithX.length < 6) {
+            // Edge case of last bar
+            barsWithX.push(barsWithX[barsWithX.length - 1] + xInterval);
         }
+
+        const leftBarTime = closest(inputBrushExtent[0], barsWithX);
+        const rightBarTime = closest(inputBrushExtent[1], barsWithX);
+        const leftBarX = x(leftBarTime);
+        // Edge case of user moving brush all the way to the left
+        const rightBarX = leftBarTime === rightBarTime ? x(rightBarTime + xInterval) : x(rightBarTime)
+
+        console.log(leftBarX)
+        console.log(rightBarX)
+
+        svg.selectAll('.brush rect')
+            .transition()
+            .duration(500)
+            .attr('x', leftBarX)
+            .attr('width', `${rightBarX - leftBarX}px`);
+
+        brush.extent([leftBarTime, rightBarTime]);
     }
 }
 
