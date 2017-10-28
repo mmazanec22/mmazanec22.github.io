@@ -90,7 +90,7 @@ function cvTimeline() {
         .domain(dateDomain)
         .rangeRound([sideMargin, parentWidth - sideMargin])
 
-    const xAxis = d3.axisBottom()
+    const xAxis = d3.axisTop()
         .scale(x)
         .ticks(d3.timeYear, 1)
         .tickFormat(d => `${new Date(d).toLocaleDateString('en-US', {year: 'numeric'})}`);
@@ -117,20 +117,16 @@ function cvTimeline() {
         .style('stroke', '#787882');
 
     const brush = d3.brushX()
-        .extent([[sideMargin, topMargin], [parentWidth - sideMargin, height]])
-        .on('end', brushed);
+        .extent([[0, 0], [width, height]])
+        .on('start brush end', brushed);
 
     svg.append('g')
-        .attr('transform', `translate(0,${topMargin})`)
+        .attr('transform', `translate(${sideMargin},${topMargin / 2})`)
         .attr("class", "brush")
         .call(brush)
-        .selectAll('rect')
-            // .style('opacity', 0.2)
-            .attr('y', `-${remSize / 2}px`)
-            .attr('height', `${remSize}px`);
 
-    svg.selectAll('.selection').style('fill', 'red')
-    svg.selectAll('rect.background, g.resize').remove()
+    svg.selectAll('.selection').style('fill', '#00ccc5')
+    svg.selectAll('rect.handle').remove()
 
     function closest(num, arr) {
         let mid;
@@ -157,47 +153,20 @@ function cvTimeline() {
         if (!d3.event.sourceEvent) return; // Only transition after input.
         if (!d3.event.selection) return; // Ignore empty selections.
 
-        console.log('else')
         const inputBrushExtent = d3.event.selection
-        console.log(inputBrushExtent)
+        var d0 = d3.event.selection.map(x.invert),
+            d1 = d0.map(d3.timeYear.round);
 
-        const fakeLayout = d3.histogram()
-            .thresholds(x.ticks(30))
-            .value(d => new Date(d));
+        console.log(d0)
+        console.log(d1)
 
-        const candidateBars = fakeLayout(inputBrushExtent)
-            .filter((barBin, index, originalArray) => {
-                const thisBarContains = barBin.length > 0;
-                const prevBarContains = index > 0 ? (originalArray[index - 1].length > 0) : false;
-                const nextBarContains = index < originalArray.length - 1 ? (originalArray[index + 1].length > 0) : false;
-                return thisBarContains || prevBarContains || nextBarContains;
-            });
+        // if (d1[0] >= d1[1]) {
+        //     d1[0] = d3.timeYear.floor(d0[0]);
+        //     d1[1] = d3.timeYear.offset(d1[0]);
+        // }
 
-        const barsWithX = candidateBars.map(d => d.x);
-        const xInterval = candidateBars[0].x0;
-
-        if (barsWithX.length < 6) {
-            // Edge case of last bar
-            barsWithX.push(barsWithX[barsWithX.length - 1] + xInterval);
+        // d3.select(this).transition().call(d3.event.target.move, d1.map(x));
         }
-
-        const leftBarTime = closest(inputBrushExtent[0], barsWithX);
-        const rightBarTime = closest(inputBrushExtent[1], barsWithX);
-        const leftBarX = x(leftBarTime);
-        // Edge case of user moving brush all the way to the left
-        const rightBarX = leftBarTime === rightBarTime ? x(rightBarTime + xInterval) : x(rightBarTime)
-
-        console.log(leftBarX)
-        console.log(rightBarX)
-
-        svg.selectAll('.brush rect')
-            .transition()
-            .duration(500)
-            .attr('x', leftBarX)
-            .attr('width', `${rightBarX - leftBarX}px`);
-
-        brush.extent([leftBarTime, rightBarTime]);
-    }
 }
 
 function stickFooterToBottom() {
@@ -226,7 +195,7 @@ function stickFooterToBottom() {
 }
 
 function renderHexbins() {
-    const svg = d3.select('svg');
+    const svg = d3.select('#hexbin-div').select('svg');
     const parentDiv = d3.select('#hexbin-div');
     const width = svg.style('width').replace('px', '');
     const height = svg.style('height').replace('px', '');

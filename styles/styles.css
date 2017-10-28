@@ -68,7 +68,7 @@ a {
     z-index: -1;
 }
 
-svg {
+#hexbin-div svg {
     background-color: #f7f7f4;
     width: 100vw;
     height: 100vh;
