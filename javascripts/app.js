@@ -37,8 +37,20 @@ const cvEvents = [
         'daterange': ['8/2007', '6/2008']
     },
     {
+        'event': 'Cruise ship show band musician',
+        'daterange': ['07/2008', '08/2009']
+    },
+    {
         'event': 'Oberlin Conservatory',
         'daterange': ['9/2008', '12/2011']
+    },
+    {
+        'event': 'Au Pair in Spain',
+        'daterange': ['05/2010', '08/2010']
+    },
+    {
+        'event': 'Summer school teacher',
+        'daterange': ['05/2011', '08/2011']
     },
     {
         'event': '4K for Cancer leg leader',
@@ -51,6 +63,10 @@ const cvEvents = [
     {
         'event': 'Sold bicycles',
         'daterange': ['03/2013', '09/2013']
+    },
+    {
+        'event': 'Polka band',
+        'daterange': ['05/2013', '09/2013']
     },
     {
         'event': 'After school music program coordinater and teacher',
@@ -191,6 +207,8 @@ function cvTimeline() {
         }).map( (e) => e.index)
     }
 
+    const paddingBetweenRows = remSize / 8;
+
     svg.append('g')
         .attr('class', 'events')
         .selectAll('rect')
@@ -204,7 +222,7 @@ function cvTimeline() {
             .attr('x', d => x(dateFromSlashy(d.daterange[0])) + sideMargin)
             .attr('y', function(d, i) {
                 d.layerNum = overlapIndices(d, i).filter(index => index > i).length
-                d.y = d.layerNum * remSize + remSize * 1.5
+                d.y = d.layerNum * remSize + remSize * 1.5 + d.layerNum * paddingBetweenRows
                 return d.y
             })
             .attr("rx", remSize / 4)
