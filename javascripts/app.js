@@ -1,17 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
-    d3.selectAll('#info .cv').style('display', 'none')
+
+    d3.selectAll('#info .bio, .headshot').style('display', 'none')
+    // d3.selectAll('#info .cv').style('display', 'unset')
+    cvTimeline()
 
     d3.selectAll('#nav .link').on('click', function() {
-
         const clickedThing = d3.select(this)
 
         if (clickedThing.classed('bio')) {
             d3.selectAll('#timeline').selectAll('*').remove()
-            d3.selectAll('#info .cv').style('display', 'none')
+            // d3.selectAll('#info .cv').style('display', 'none')
             d3.selectAll('#info .bio, .headshot').style('display', 'unset')
         } else {
             d3.selectAll('#info .bio, .headshot').style('display', 'none')
-            d3.selectAll('#info .cv').style('display', 'unset')
+            // d3.selectAll('#info .cv').style('display', 'unset')
             cvTimeline()
         }
 
@@ -39,6 +41,10 @@ const cvEvents = [
         'daterange': ['9/2008', '12/2011']
     },
     {
+        'event': '4K for Cancer leg leader',
+        'daterange': ['02/2012', '08/2012']
+    },
+    {
         'event': 'Kindergarten co-teacher',
         'daterange': ['10/2012', '03/2013']
     },
@@ -51,8 +57,16 @@ const cvEvents = [
         'daterange': ['09/2013', '05/2014']
     },
     {
-        'event': 'CSU LCUA MPA',
+        'event': 'Special needs tutor',
+        'daterange': ['03/2014', '06/2014']
+    },
+    {
+        'event': 'CSU Levin College of Urban Affairs MPA',
         'daterange': ['09/2014', '05/2016']
+    },
+    {
+        'event': 'Resource development research intern at United Way',
+        'daterange': ['10/2014', '05/2015']
     },
     {
         'event': 'Dev Bootcamp',
@@ -63,9 +77,18 @@ const cvEvents = [
         'daterange': ['01/2017', '10/2017']
     },
     {
-        'event': 'future',
-        'daterange': ['01/2018', '01/2018']
-    }
+        'event': 'Volunteer tech lead at the Difference Engine',
+        'daterange': ['09/2017', '10/2017']
+    },
+]
+
+const eventColors = [
+    'red',
+    'orange',
+    'yellow',
+    'green',
+    'dodgerblue',
+    'purple'
 ]
 
 function dateFromSlashy(slashyDate) {
@@ -78,6 +101,7 @@ function cvTimeline() {
     const remSize = parseFloat(getComputedStyle(d3.select('html').node()).fontSize);
 
     const parentDiv = d3.select('#timeline')
+        .attr('transform', `translate 0, ${window.innerHeight / 2}`)
     const parentWidth = parentDiv.style('width').replace('px', '');
     const parentHeight = parentDiv.style('height').replace('px', '');
 
@@ -89,7 +113,7 @@ function cvTimeline() {
         .style('z-index', 2)
 
     const sideMargin = parentWidth * 0.05;
-    const topMargin = parentHeight * 0.5;
+    const topMargin = parentHeight * 0.05;
     const width = parentWidth - sideMargin * 2
     const height = parentHeight - topMargin
 
@@ -131,7 +155,7 @@ function cvTimeline() {
         .style('stroke', '#787882');
 
     const brush = d3.brushX()
-        .extent([[sideMargin, 0 - height / 2], [width, height * 2]])
+        .extent([[sideMargin, 0 - height - remSize], [width, -remSize * 5]])
         .on('end', brushed);
 
     svg.append('g')
@@ -144,11 +168,39 @@ function cvTimeline() {
         ])
 
     svg.selectAll('.brush').selectAll('rect')
-        .style('height', `${height/2}px`)
         
     svg.selectAll('.selection').style('fill', '#00ccc5')
     svg.selectAll('rect.handle').remove()
     svg.selectAll('.overlay').attr('pointer-events', 'none')
+
+    function overlapIndices(d, inputIndex) {
+        return cvEvents.filter(function(e, eventIndex) {
+            if (eventIndex === inputIndex) {
+                return false
+            }
+            e.index = eventIndex
+            return dateFromSlashy(e.daterange[0]) < dateFromSlashy(d.daterange[1]) && dateFromSlashy(d.daterange[0]) < dateFromSlashy(e.daterange[1])
+        }).map( (e) => e.index)
+    }
+
+    svg.append('g')
+        .attr('class', 'events')
+        .selectAll('rect')
+        .data(cvEvents)
+        .enter().append('rect')
+            .style('fill-opacity', 0.2)
+            .attr('width', function(d) {
+                return x(dateFromSlashy(d.daterange[1])) - x(dateFromSlashy(d.daterange[0]))
+            })
+            .attr('height', remSize)
+            .attr('x', d => x(dateFromSlashy(d.daterange[0])) + sideMargin)
+            .attr('y', function(d, i) {
+                d.layerNum = overlapIndices(d, i).filter(index => index > i).length
+                d.y = d.layerNum * remSize + remSize * 1.5
+                return d.y
+            })
+            .style('fill', d => eventColors[d.layerNum])
+            .style('stroke', d => eventColors[d.layerNum])
 
     function brushed() {
         let d0;
