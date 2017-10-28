@@ -62,10 +62,10 @@ const cvEvents = [
         'event': 'Developer at 5th Column',
         'daterange': ['01/2017', '10/2017']
     },
-    // {
-    //     'event': 'future',
-    //     'daterange': ['01/2018', '01/2018']
-    // }
+    {
+        'event': 'future',
+        'daterange': ['01/2018', '01/2018']
+    }
 ]
 
 function dateFromSlashy(slashyDate) {
@@ -100,7 +100,7 @@ function cvTimeline() {
 
     const x = d3.scaleTime()
         .domain(dateDomain)
-        .range([sideMargin, parentWidth - sideMargin])
+        .range([sideMargin, width])
 
     const xAxis = d3.axisTop()
         .scale(x)
@@ -109,11 +109,11 @@ function cvTimeline() {
 
     const xAxisElements = svg.append('g')
         .attr('class', 'x axis')
-        .attr('transform', `translate(${0},${topMargin})`)
+        .attr('transform', `translate(${sideMargin},${topMargin})`)
         .call(xAxis);
 
     xAxisElements.selectAll('.tick')
-        .attr('transform', d => `translate(${sideMargin + x(d)},${0})`)
+        .attr('transform', d => `translate(${0 + x(d)}, 0)`)
         .selectAll('text')
         .style('font-size', `${0.7 * remSize}px`)
 
@@ -131,7 +131,7 @@ function cvTimeline() {
         .style('stroke', '#787882');
 
     const brush = d3.brushX()
-        .extent([[0, 0 - height / 2], [width, height * 2]])
+        .extent([[sideMargin, 0 - height / 2], [width, height * 2]])
         .on('end', brushed);
 
     svg.append('g')
@@ -139,8 +139,8 @@ function cvTimeline() {
         .attr("class", "brush")
         .call(brush)
         .call(brush.move, [
-            x(new Date(2016, 0)),
-            x(new Date(2017, 0))
+            x(new Date(2017, 0)),
+            x(new Date(2018, 0))
         ])
 
     svg.selectAll('.brush').selectAll('rect')
@@ -150,29 +150,11 @@ function cvTimeline() {
     svg.selectAll('rect.handle').remove()
     svg.selectAll('.overlay').attr('pointer-events', 'none')
 
-    function closest(num, arr) {
-        let mid;
-        let lo = 0;
-        let hi = arr.length - 1;
-        while (hi - lo > 1) {
-            mid = Math.floor ((lo + hi) / 2);
-            if (arr[mid] < num) {
-                lo = mid;
-            } else {
-                hi = mid;
-            }
-        }
-        if (num - arr[lo] <= arr[hi] - num) {
-            return arr[lo];
-        }
-        return arr[hi];
-    }
-
     function brushed() {
         let d0;
         let d1;
         if (!d3.event.sourceEvent || !d3.event.selection) {
-            d1 = [new Date(2016), new Date(2017)]
+            d1 = [new Date(2017, 1), new Date(2018, 1)]
             d0 = d1
             return
         } else {
@@ -184,8 +166,6 @@ function cvTimeline() {
             d1[0] = d3.timeYear.floor(d0[0]);
             d1[1] = d3.timeYear.offset(d1[0]);
         }
-
-        console.log(d1)
 
         d3.select(this).transition().call(d3.event.target.move, d1.map(x));
         }
