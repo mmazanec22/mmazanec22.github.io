@@ -53,6 +53,14 @@ const cvEvents = [
     {
         'event': 'CSU LCUA MPA',
         'daterange': ['09/2014', '05/2016']
+    },
+    {
+        'event': 'Dev Bootcamp',
+        'daterange': ['05/2016', '09/2016']
+    },
+    {
+        'event': 'Developer at 5th Column',
+        'daterange': ['01/2017', '10/2017']
     }
 ]
 
