@@ -96,7 +96,7 @@ function cvTimeline() {
 
     const x = d3.scaleTime()
         .domain(dateDomain)
-        .rangeRound([sideMargin, parentWidth - sideMargin])
+        .range([sideMargin, parentWidth - sideMargin])
 
     const xAxis = d3.axisTop()
         .scale(x)
@@ -105,12 +105,14 @@ function cvTimeline() {
 
     const xAxisElements = svg.append('g')
         .attr('class', 'x axis')
-        .attr('transform', `translate(0,${topMargin})`)
+        .attr('transform', `translate(${0},${topMargin})`)
         .call(xAxis);
 
     xAxisElements.selectAll('.tick')
         .selectAll('text')
         .style('font-size', `${0.7 * remSize}px`)
+        .attr('transform', `translate(${sideMargin},${0})`)
+
 
     xAxisElements.selectAll('path, line')
         .style('shape-rendering', 'crispEdges');
