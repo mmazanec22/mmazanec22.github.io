@@ -61,7 +61,11 @@ const cvEvents = [
     {
         'event': 'Developer at 5th Column',
         'daterange': ['01/2017', '10/2017']
-    }
+    },
+    // {
+    //     'event': 'future',
+    //     'daterange': ['01/2018', '01/2018']
+    // }
 ]
 
 function dateFromSlashy(slashyDate) {
@@ -109,9 +113,9 @@ function cvTimeline() {
         .call(xAxis);
 
     xAxisElements.selectAll('.tick')
+        .attr('transform', d => `translate(${sideMargin + x(d)},${0})`)
         .selectAll('text')
         .style('font-size', `${0.7 * remSize}px`)
-        .attr('transform', `translate(${sideMargin},${0})`)
 
 
     xAxisElements.selectAll('path, line')
@@ -134,9 +138,14 @@ function cvTimeline() {
         .attr('transform', `translate(${sideMargin},${topMargin / 2})`)
         .attr("class", "brush")
         .call(brush)
-
+        .call(brush.move, [
+            x(new Date(2016, 0)),
+            x(new Date(2017, 0))
+        ])
+        
     svg.selectAll('.selection').style('fill', '#00ccc5')
     svg.selectAll('rect.handle').remove()
+    svg.selectAll('.overlay').attr('pointer-events', 'none')
 
     function closest(num, arr) {
         let mid;
@@ -157,23 +166,23 @@ function cvTimeline() {
     }
 
     function brushed() {
-
-        // TODO: REWORK THIS LOGIC SO IT GETS BRUSH EVENT
-
-        if (!d3.event.sourceEvent) return; // Only transition after input.
-        if (!d3.event.selection) return; // Ignore empty selections.
-
-        const inputBrushExtent = d3.event.selection
-        var d0 = d3.event.selection.map(x.invert),
+        let d0;
+        let d1;
+        if (!d3.event.sourceEvent || !d3.event.selection) {
+            d1 = [new Date(2016), new Date(2017)]
+            d0 = d1
+            return
+        } else {
+            d0 = d3.event.selection.map(x.invert);
             d1 = d0.map(d3.timeYear.round);
-
-        console.log(d0)
-        console.log(d1)
+        }
 
         if (d1[0] >= d1[1]) {
             d1[0] = d3.timeYear.floor(d0[0]);
             d1[1] = d3.timeYear.offset(d1[0]);
         }
+
+        console.log(d1)
 
         d3.select(this).transition().call(d3.event.target.move, d1.map(x));
         }
