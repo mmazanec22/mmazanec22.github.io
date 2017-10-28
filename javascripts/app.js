@@ -135,13 +135,16 @@ function cvTimeline() {
         .on('end', brushed);
 
     svg.append('g')
-        .attr('transform', `translate(${sideMargin},${topMargin / 2})`)
+        .attr('transform', `translate(${sideMargin},${topMargin + height/4})`)
         .attr("class", "brush")
         .call(brush)
         .call(brush.move, [
             x(new Date(2016, 0)),
             x(new Date(2017, 0))
         ])
+
+    svg.selectAll('.brush').selectAll('rect')
+        .style('height', `${height/2}px`)
         
     svg.selectAll('.selection').style('fill', '#00ccc5')
     svg.selectAll('rect.handle').remove()
