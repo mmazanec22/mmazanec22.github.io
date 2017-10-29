@@ -44,25 +44,46 @@ window.addEventListener("resize", function() {
     }, 100)
 });
 
+function assignLayersToEvents() {
+    cvEvents.map(function(e, i) {
+        e.layerNum = 0
+        e.numConflicts = overlapIndices(e, i).length
+        return e
+    })
 
-function twinklecvTitle() {
+    cvEvents.sort((a, b) => a.numConflicts - b.numConflicts)
+
+    let overlaps = true;
+    let maxLayerNum = 0
+    while (overlaps) {
+        let currentOverlaps = false;
+        cvEvents.forEach(function (e, eIndex) {
+            const theseOverlaps = overlapIndices(e, eIndex)
+            if (theseOverlaps.length !== 0) {
+                e.layerNum += 1
+                currentOverlaps = true
+            }
+        })
+        overlaps = currentOverlaps;
+    }
+}
+
+function twinklecvTitle(intervalLength = 75) {
     let letterIndex = 0
     const t = d3.interval(function(elapsed) {
         const thisColor = eventColors[letterIndex % eventColors.length]
-        d3.select(`#titleLetter${letterIndex}`).transition()
-            .duration(75)
+        d3.selectAll(`.titleLetter${letterIndex}`).transition()
+            .duration(intervalLength)
             .style('fill', thisColor)
 
-        d3.select(`#titleLetter${letterIndex - 1}`).transition()
-            .duration(2000)
+        d3.selectAll(`.titleLetter${letterIndex - 1}`).transition()
+            .duration(1500)
             .style('fill', '#303030')
 
         letterIndex += 1
-
         if (letterIndex > cvTitle.length) t.stop();
-    }, 75);
+    }, intervalLength);
 }
-
 
 function cvTimeline() {
 
@@ -97,7 +118,7 @@ function cvTimeline() {
             .attr('height', 10)
             .attr('width', 10)
             .text(d => d)
-            .attr('id', (d, i) => `titleLetter${i}`)
+            .attr('class', (d, i) => `titleLetter${i}`)
             .attr('x', function(d, i) {
                 const distBtwnLetters = cvTitleFontSize * 0.7
                 const offsetRL = cvTitle.length % 2 === 0 ? distBtwnLetters / 2.0 : 0
@@ -125,18 +146,6 @@ function cvTimeline() {
                         .style('fill', '#303030')
                 }, 750)
             })
-
-    cvTitleGroup.selectAll('text').each(function(d, i) {
-        console.log(d)
-        setTimeout(function() {
-            const thisColor = eventColors[i % eventColors.length]
-            d3.select(this).transition()
-                .duration(150)
-                .style('fill', thisColor)
-
-        }, i * 500)
-    })
-
 
     const svg = parentDiv.append('svg')
         .style('position', 'relative')
@@ -171,8 +180,10 @@ function cvTimeline() {
 
     xAxisElements.selectAll('.tick')
         .attr('transform', d => `translate(${0 + x(d)}, ${remSize/4})`)
+        .attr('d', (d, i ) => d.index = i)
         .selectAll('text')
             .attr('text-anchor', 'middle')
+            .attr('class', (d, i) => `titleLetter${d.index + 2}`)
             .style('fill', '#303030')
             .style('font-family', 'sans-serif')
             .style('font-size', `${0.5 * remSize}px`)
@@ -266,49 +277,11 @@ function cvTimeline() {
 
         d3.select(this).transition().call(d3.event.target.move, d1.map(x));
         }
-
-
 } // timeline
-
-const eventColors = [
-    '#cc3300',
-    '#ff9933',
-    '#ffcc00',
-    '#9cd615',
-    '#0b8e35',
-    '#39b2aa',
-    '#0066cc',
-    '#0000cc',
-    '#d6149f',
-]
 
 function dateFromSlashy(slashyDate) {
     const slashyArray = slashyDate.split('/')
     return new Date(slashyArray[1], slashyArray[0])
-}
-
-function assignLayersToEvents() {
-    cvEvents.map(function(e, i) {
-        e.layerNum = 0
-        e.numConflicts = overlapIndices(e, i).length
-        return e
-    })
-
-    cvEvents.sort((a, b) => a.numConflicts - b.numConflicts)
-
-    let overlaps = true;
-    let maxLayerNum = 0
-    while (overlaps) {
-        let currentOverlaps = false;
-        cvEvents.forEach(function (e, eIndex) {
-            const theseOverlaps = overlapIndices(e, eIndex)
-            if (theseOverlaps.length !== 0) {
-                e.layerNum += 1
-                currentOverlaps = true
-            }
-        })
-        overlaps = currentOverlaps;
-    }
 }
 
 function overlapIndices(d, inputIndex) {
@@ -589,6 +562,18 @@ function hackedBin(keys) {
 
     return hexbin.radius(1);
 }
+
+const eventColors = [
+    '#cc3300',
+    '#ff9933',
+    '#ffcc00',
+    '#9cd615',
+    '#0b8e35',
+    '#39b2aa',
+    '#0066cc',
+    '#0000cc',
+    '#d6149f',
+]
 
 const cvEvents = [
     {
