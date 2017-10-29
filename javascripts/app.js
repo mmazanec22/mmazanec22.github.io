@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'none')
+    d3.selectAll('#timeline').style('display', 'unset')
     cvTimeline()
 
     d3.selectAll('#nav .link').on('click', function() {
         const clickedThing = d3.select(this)
 
         if (clickedThing.classed('bio')) {
-            d3.selectAll('#timeline').selectAll('*').remove()
+            d3.selectAll('#timeline').style('display', 'none')
             d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'unset')
         } else {
             d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'none')
@@ -22,15 +23,19 @@ document.addEventListener("DOMContentLoaded", function() {
 window.addEventListener("resize", function() {
     renderHexbins()
     stickFooterToBottom()
+    cvTimeline()
 });
 
 const eventColors = [
     '#cc3300',
     '#ff9933',
     '#ffcc00',
-    '#408000',
+    '#9cd615',
+    '#0b8e35',
+    '#39b2aa',
     '#0066cc',
-    '#884dff'
+    '#0000cc',
+    '#d6149f'
 ]
 
 function dateFromSlashy(slashyDate) {
@@ -39,11 +44,13 @@ function dateFromSlashy(slashyDate) {
 }
 
 function cvTimeline() {
-
     const remSize = parseFloat(getComputedStyle(d3.select('html').node()).fontSize);
 
     const parentDiv = d3.select('#timeline')
         .attr('transform', `translate 0, ${window.innerHeight / 2}`)
+
+    parentDiv.selectAll('*').remove()
+
     const parentWidth = parentDiv.style('width').replace('px', '');
     const parentHeight = parentDiv.style('height').replace('px', '');
 
@@ -141,7 +148,7 @@ function cvTimeline() {
             .attr('height', remSize)
             .attr('x', d => x(dateFromSlashy(d.daterange[0])) + sideMargin)
             .attr('y', function(d, i) {
-                d.y = d.layerNum * remSize + remSize * 1.5 + d.layerNum * paddingBetweenRows
+                d.y = d.layerNum * remSize + remSize * 2.5 + d.layerNum * paddingBetweenRows
                 return d.y
             })
             .attr("rx", remSize / 4)
@@ -189,6 +196,7 @@ function cvTimeline() {
         cvEvents.sort((a, b) => a.numConflicts - b.numConflicts)
 
         let overlaps = true;
+        let maxLayerNum = 0
         while (overlaps) {
             let currentOverlaps = false;
             cvEvents.forEach(function (e, eIndex) {
@@ -204,13 +212,12 @@ function cvTimeline() {
 
 } // timeline
 
-function makeToolTip() {
-    const svg = d3.select('#timeline').select('svg');
-  
+function makeToolTip() {  
     const tooltip = d3.select('body').append('div')
         .attr('class', 'tooltip')
         .style('position', 'absolute')
-        .style('z-index', '1');
+        .style('font-size', '0.75rem')
+        .style('z-index', '1')
 
     tooltip.append('text')
         .text('tooltip')
@@ -231,7 +238,7 @@ function moveToolTip(tooltip) {
     const eventYRelToScroll = d3.event.pageY - window.scrollY;
 
     let tipX = (eventXRelToScroll) + 15;
-    let tipY = (eventYRelToScroll) + 10;
+    let tipY = (eventYRelToScroll) + 15;
 
     const tooltipDimensions = tooltip.node().getBoundingClientRect();
 
@@ -239,7 +246,7 @@ function moveToolTip(tooltip) {
         tipX - tooltipDimensions.width - 15 : tipX;
 
     tipY = (eventYRelToScroll + tooltipDimensions.height + 10 > svgDimensions.bottom) ?
-        tipY - tooltipDimensions.height - 10 : tipY;
+        tipY - tooltipDimensions.height - 15 : tipY;
 
     tooltip
         .transition()
@@ -475,12 +482,28 @@ function hackedBin(keys) {
 
 const cvEvents = [
     {
+        'event': 'Private trumpet lesson teacher and freelance musician',
+        'daterange': ['06/2005', '06/2016']
+    },
+    {
         'event': 'Interlochen Arts Academy',
         'daterange': ['8/2006', '5/2007']
     },
     {
+        'event': 'Crossing guard at Interlochen summer camp',
+        'daterange': ['06/2007', '08/2007']
+    },
+    {
         'event': 'Utrecht Conservatory',
         'daterange': ['8/2007', '6/2008']
+    },
+    {
+        'event': 'Sweelinck Orkest',
+        'daterange': ['12/2007', '06/2008']
+    },
+    {
+        'event': 'Utrecht Blazers Ensemble',
+        'daterange': ['01/2008', '06/2008']
     },
     {
         'event': 'Cruise ship show band musician (intermittent)',
@@ -523,12 +546,20 @@ const cvEvents = [
         'daterange': ['09/2013', '05/2014']
     },
     {
+        'event': 'Legacy Initiative of Utah volunteer',
+        'daterange': ['01/2014', '06/2014']
+    },
+    {
         'event': 'Special needs tutor',
         'daterange': ['03/2014', '06/2014']
     },
     {
         'event': 'CSU Levin College of Urban Affairs MPA',
         'daterange': ['09/2014', '05/2016']
+    },
+    {
+        'event': 'CSU Nonprofit Management Certificate',
+        'daterange': ['09/2014', '12/2015']
     },
     {
         'event': 'CSU brass quintet and El Sistema scholarship',
@@ -543,12 +574,24 @@ const cvEvents = [
         'daterange': ['01/2015', '06/2016']
     },
     {
+        'event': 'Project-based code learning group coordinator',
+        'daterange': ['08/2015', '06/2016']
+    },
+    {
         'event': 'CSU Business Analytics Certificate',
         'daterange': ['09/2015', '05/2016']
     },
     {
+        'event': 'Research Assistant, Cleveland Civic Tech and Data Collaborative',
+        'daterange': ['11/2015', '06/2016']
+    },
+    {
         'event': 'Dev Bootcamp',
         'daterange': ['05/2016', '09/2016']
+    },
+    {
+        'event': 'Volunteer for Code Platoon',
+        'daterange': ['10/2016', '2/2017']
     },
     {
         'event': 'Developer at 5th Column',
