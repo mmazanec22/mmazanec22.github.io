@@ -122,7 +122,7 @@ function cvTimeline() {
     // svg.selectAll('.overlay').attr('pointer-events', 'none')
 
 
-    const paddingBetweenRows = remSize / 16;
+    const paddingBetweenRows = remSize;
     const tooltip = makeToolTip()
 
     svg.append('g')
@@ -131,7 +131,7 @@ function cvTimeline() {
         .data(cvEvents)
         .enter().append('rect')
             .attr('transform', `translate(${sideMargin},${topMargin})`)
-            .style('fill-opacity', 0.2)
+            .style('fill-opacity', 0.4)
             .attr('width', function(d) {
                 return x(dateFromSlashy(d.daterange[1])) - x(dateFromSlashy(d.daterange[0]))
             })
