@@ -126,9 +126,9 @@ function cvTimeline() {
                 const el = d3.select(this)
                 setTimeout(function() {
                     el.transition()
-                        .duration(1000)
+                        .duration(500)
                         .style('fill', '#303030')
-                }, 750)
+                }, 250)
             })
 
     const svg = parentDiv.append('svg')
