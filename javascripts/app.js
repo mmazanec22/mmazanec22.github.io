@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+// TODO: REMOVE EXTRANEOUS TOOLTIPS
+
 let resizeTimer;
 window.addEventListener("resize", function() {
     renderHexbins()
@@ -50,6 +52,33 @@ function cvTimeline() {
 
     const parentWidth = parentDiv.style('width').replace('px', '');
     const parentHeight = parentDiv.style('height').replace('px', '');
+
+
+    // const titleSvg = parentDiv.append('svg')
+    //     .style('position', 'relative')
+    //     .style('height', `${parentHeight / 8}px`)
+    //     .style('width', `${parentWidth}px`)
+    //     .attr('preserveAspectRatio', 'xMinYMin meet')
+    //     .style('z-index', 2)
+
+    // const title = 'A Colorful History'.split('')
+    // const center = parentWidth / 2
+
+    // titleSvg.append('g')
+    //     .attr('class', 'cvTitle')
+    //     .selectAll('text')
+    //     .data(title)
+    //     .enter().append('text')
+    //         .attr('height', 10)
+    //         .attr('width', 10)
+    //         .text(d => d)
+    //         .attr('x', function(d, i) {
+    //             const titleCenter = title.length / 2.0
+                
+
+    //             i > title.length / 2 ? center + i * remSize : 
+    //         })
+    //         .attr('y', 10)
 
     const svg = parentDiv.append('svg')
         .style('position', 'relative')
@@ -142,8 +171,8 @@ function cvTimeline() {
                 d.y = d.layerNum * (remSize / 2) + (1 + d.layerNum) * paddingBetweenRows
                 return d.y
             })
-            .attr("rx", remSize / 4)
-            .attr("ry", remSize / 4)
+            .attr('rx', remSize / 4)
+            .attr('ry', remSize / 4)
             .style('fill', d => eventColors[d.layerNum])
             .style('stroke', d => eventColors[d.layerNum])
 
@@ -502,127 +531,135 @@ function hackedBin(keys) {
 
 const cvEvents = [
     {
-        'event': 'Private trumpet lesson teacher and freelance musician',
-        'daterange': ['06/2005', '06/2016']
+        event: 'Private trumpet lesson teacher and freelance musician',
+        daterange: ['06/2005', '06/2016']
     },
     {
-        'event': 'Interlochen Arts Academy',
-        'daterange': ['8/2006', '5/2007']
+        event: 'Interlochen Arts Academy',
+        daterange: ['8/2006', '5/2007']
     },
     {
-        'event': 'Crossing guard at Interlochen summer camp',
-        'daterange': ['06/2007', '08/2007']
+        event: 'Crossing guard at Interlochen Arts Camp',
+        daterange: ['06/2007', '08/2007']
     },
     {
-        'event': 'Utrecht Conservatory',
-        'daterange': ['8/2007', '6/2008']
+        event: 'Utrecht Conservatory',
+        daterange: ['8/2007', '6/2008']
     },
     {
-        'event': 'Sweelinck Orkest',
-        'daterange': ['12/2007', '06/2008']
+        event: 'Sweelinck Orkest',
+        daterange: ['12/2007', '06/2008']
     },
     {
-        'event': 'Utrecht Blazers Ensemble',
-        'daterange': ['01/2008', '06/2008']
+        event: 'Utrecht Blazers Ensemble',
+        daterange: ['01/2008', '06/2008']
     },
     {
-        'event': 'Cruise ship show band musician (intermittent)',
-        'daterange': ['07/2008', '08/2009']
+        event: 'Cruise ship show band musician (intermittent)',
+        daterange: ['07/2008', '08/2009']
     },
     {
-        'event': 'Oberlin Conservatory',
-        'daterange': ['9/2008', '12/2011']
+        event: 'Oberlin Conservatory',
+        daterange: ['9/2008', '12/2011']
     },
     {
-        'event': 'Bicycle down California coast',
-        'daterange': ['12/2009', '01/2010']
+        event: 'Bicycle down California coast',
+        daterange: ['12/2009', '01/2010']
     },
     {
-        'event': 'Au Pair in Spain',
-        'daterange': ['05/2010', '08/2010']
+        event: 'Au Pair in Spain',
+        daterange: ['05/2010', '08/2010']
     },
     {
-        'event': 'Summer school teacher',
-        'daterange': ['05/2011', '08/2011']
+        event: 'Head cook in dining cooperative',
+        daterange: ['09/2010', '05/2011']
     },
     {
-        'event': '4K for Cancer leg leader',
-        'daterange': ['02/2012', '08/2012']
+        event: 'Head mechanic in bicycle cooperative',
+        daterange: ['01/2011', '05/2011']
     },
     {
-        'event': 'Kindergarten co-teacher',
-        'daterange': ['10/2012', '03/2013']
+        event: 'Summer school teacher',
+        daterange: ['05/2011', '08/2011']
     },
     {
-        'event': 'Bad Girl Ventures entrepreneurship classes',
-        'daterange': ['03/2013', '05/2013']
+        event: '4K for Cancer leg leader',
+        daterange: ['02/2012', '08/2012']
     },
     {
-        'event': 'Bicycle sales associate',
-        'daterange': ['03/2013', '09/2013']
+        event: 'Kindergarten co-teacher',
+        daterange: ['10/2012', '03/2013']
     },
     {
-        'event': 'Polka band',
-        'daterange': ['05/2013', '09/2013']
+        event: 'Bad Girl Ventures entrepreneurship classes',
+        daterange: ['03/2013', '05/2013']
     },
     {
-        'event': 'After school music program coordinater and teacher',
-        'daterange': ['09/2013', '05/2014']
+        event: 'Bicycle sales associate',
+        daterange: ['03/2013', '09/2013']
     },
     {
-        'event': 'Legacy Initiative of Utah volunteer',
-        'daterange': ['01/2014', '06/2014']
+        event: 'Polka band',
+        daterange: ['05/2013', '09/2013']
     },
     {
-        'event': 'Special needs tutor',
-        'daterange': ['03/2014', '06/2014']
+        event: 'After school music program coordinater and teacher',
+        daterange: ['09/2013', '05/2014']
     },
     {
-        'event': 'CSU Levin College of Urban Affairs MPA',
-        'daterange': ['09/2014', '05/2016']
+        event: 'Legacy Initiative of Utah volunteer',
+        daterange: ['01/2014', '06/2014']
     },
     {
-        'event': 'CSU Nonprofit Management Certificate',
-        'daterange': ['09/2014', '12/2015']
+        event: 'Special needs tutor',
+        daterange: ['03/2014', '06/2014']
     },
     {
-        'event': 'CSU brass quintet and El Sistema scholarship',
-        'daterange': ['09/2014', '05/2015']
+        event: 'CSU Levin College of Urban Affairs MPA',
+        daterange: ['09/2014', '05/2016']
     },
     {
-        'event': 'Resource development research intern at United Way',
-        'daterange': ['10/2014', '05/2015']
+        event: 'CSU Nonprofit Management Certificate',
+        daterange: ['09/2014', '12/2015']
     },
     {
-        'event': 'Graduate assistant',
-        'daterange': ['01/2015', '06/2016']
+        event: 'CSU brass quintet and El Sistema scholarship',
+        daterange: ['09/2014', '05/2015']
     },
     {
-        'event': 'Project-based code learning group coordinator',
-        'daterange': ['08/2015', '06/2016']
+        event: 'Resource development research intern at United Way',
+        daterange: ['10/2014', '05/2015']
     },
     {
-        'event': 'CSU Business Analytics Certificate',
-        'daterange': ['09/2015', '05/2016']
+        event: 'Graduate assistant',
+        daterange: ['01/2015', '06/2016']
     },
     {
-        'event': 'Research Assistant, Cleveland Civic Tech and Data Collaborative',
-        'daterange': ['11/2015', '06/2016']
+        event: 'Project-based code learning group coordinator',
+        daterange: ['08/2015', '06/2016']
     },
     {
-        'event': 'Dev Bootcamp',
-        'daterange': ['05/2016', '09/2016']
+        event: 'CSU Business Analytics Certificate',
+        daterange: ['09/2015', '05/2016']
     },
     {
-        'event': 'Volunteer for Code Platoon',
-        'daterange': ['10/2016', '2/2017']
+        event: 'Research Assistant, Cleveland Civic Tech and Data Collaborative',
+        daterange: ['11/2015', '06/2016']
     },
     {
-        'event': 'Developer at 5th Column',
-        'daterange': ['01/2017', '10/2017']
+        event: 'Dev Bootcamp',
+        daterange: ['05/2016', '09/2016']
     },
     {
-        'event': 'Volunteer tech lead at the Difference Engine',
-        'daterange': ['09/2017', '10/2017']
+        event: 'Volunteer for Code Platoon',
+        daterange: ['10/2016', '2/2017']
+    },
+    {
+        event: 'Developer at 5th Column',
+        daterange: ['01/2017', '10/2017']
+    },
+    {
+        event: 'Volunteer tech lead at the Difference Engine',
+        daterange: ['09/2017', '10/2017']
     },
 ]

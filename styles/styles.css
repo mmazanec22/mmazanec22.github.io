@@ -99,9 +99,9 @@ a {
 }
 
 #timeline{
-    left: 0;
     position: absolute;
-    margin-top: 10vh;
+    left: 0;
+    top: 30vh;
     height: 60vh;
     width: 100vw;
 }
@@ -119,6 +119,10 @@ a {
 
 #footer a:hover, .link:hover {
     color: #520177;
+}
+
+.tooltip {
+    max-width: 15vw;
 }
 
 @media only screen 
