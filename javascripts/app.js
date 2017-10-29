@@ -1,8 +1,9 @@
+const cvTitle = 'A Colorful History'.split('')
+
 document.addEventListener("DOMContentLoaded", function() {
 
     assignLayersToEvents()
     cvEvents.sort((a, b) => dateFromSlashy(a.daterange[0]) - dateFromSlashy(b.daterange[0]))
-
 
 
     d3.select('#container').style('background-color', '#f7f7f4')
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     cvTimeline()
     renderHexbins()
     stickFooterToBottom()
+    twinklecvTitle()
 
     d3.selectAll('#nav .link').on('click', function() {
         const clickedThing = d3.select(this)
@@ -23,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
             d3.selectAll('#info .bio, #hexbin-div').style('display', 'none')
             d3.select('#container').style('background-color', '#f7f7f4')
             d3.selectAll('#timeline').style('display', 'unset')
+            twinklecvTitle()
         }
 
     });
@@ -42,6 +45,25 @@ window.addEventListener("resize", function() {
 });
 
 
+function twinklecvTitle() {
+    let letterIndex = 0
+    const t = d3.interval(function(elapsed) {
+        const thisColor = eventColors[letterIndex % eventColors.length]
+        d3.select(`#titleLetter${letterIndex}`).transition()
+            .duration(75)
+            .style('fill', thisColor)
+
+        d3.select(`#titleLetter${letterIndex - 1}`).transition()
+            .duration(2000)
+            .style('fill', '#303030')
+
+        letterIndex += 1
+
+        if (letterIndex > cvTitle.length) t.stop();
+    }, 75);
+}
+
+
 function cvTimeline() {
 
     const remSize = parseFloat(getComputedStyle(d3.select('html').node()).fontSize);
@@ -54,41 +76,41 @@ function cvTimeline() {
     const parentHeight = parentDiv.style('height').replace('px', '');
 
 
-    const titleSvg = parentDiv.append('svg')
+    const cvTitleSvg = parentDiv.append('svg')
         .style('position', 'relative')
         .style('height', `${parentHeight / 6}px`)
         .style('width', `${parentWidth}px`)
         .attr('preserveAspectRatio', 'xMinYMin meet')
         .style('z-index', 2)
 
-    const title = 'A Colorful History'.split('')
     const center = parentWidth / 2
-    const titleFontSize = 2 * remSize
+    const cvTitleFontSize = (parentWidth - remSize * 2) / cvTitle.length
 
-    const titleGroup = titleSvg.append('g')
-        .attr('class', 'cvTitle')
+    const cvTitleGroup = cvTitleSvg.append('g')
+        .attr('class', 'cvcvTitle')
         .selectAll('text')
-        .data(title)
+        .data(cvTitle)
         .enter().append('text')
             .style('font-family', 'Aclonica')
             .attr('text-anchor', 'middle')
-            .style('font-size', `${titleFontSize}px`)
+            .style('font-size', `${cvTitleFontSize}px`)
             .attr('height', 10)
             .attr('width', 10)
             .text(d => d)
+            .attr('id', (d, i) => `titleLetter${i}`)
             .attr('x', function(d, i) {
-                const distBtwnLetters = titleFontSize * 0.7
-                const offsetRL = title.length % 2 === 0 ? distBtwnLetters / 2.0 : 0
-                const titleCenter = title.length / 2.0
-                if (i === titleCenter) {
+                const distBtwnLetters = cvTitleFontSize * 0.7
+                const offsetRL = cvTitle.length % 2 === 0 ? distBtwnLetters / 2.0 : 0
+                const cvTitleCenter = cvTitle.length / 2.0
+                if (i === cvTitleCenter) {
                     return center
-                } else if (i < titleCenter) {
-                    return center - offsetRL - (titleCenter - i) * distBtwnLetters
-                } else if (i > titleCenter) {
-                    return center + offsetRL + (i - titleCenter) * distBtwnLetters
+                } else if (i < cvTitleCenter) {
+                    return center - offsetRL - (cvTitleCenter - i) * distBtwnLetters
+                } else if (i > cvTitleCenter) {
+                    return center + offsetRL + (i - cvTitleCenter) * distBtwnLetters
                 }
             })
-            .attr('y', titleFontSize)
+            .attr('y', cvTitleFontSize)
             .on('mouseover', function(d, i) {
                 const thisColor = eventColors[i % eventColors.length]
                 d3.select(this).transition()
@@ -103,6 +125,18 @@ function cvTimeline() {
                         .style('fill', '#303030')
                 }, 750)
             })
+
+    cvTitleGroup.selectAll('text').each(function(d, i) {
+        console.log(d)
+        setTimeout(function() {
+            const thisColor = eventColors[i % eventColors.length]
+            d3.select(this).transition()
+                .duration(150)
+                .style('fill', thisColor)
+
+        }, i * 500)
+    })
+
 
     const svg = parentDiv.append('svg')
         .style('position', 'relative')
@@ -138,6 +172,7 @@ function cvTimeline() {
     xAxisElements.selectAll('.tick')
         .attr('transform', d => `translate(${0 + x(d)}, ${remSize/4})`)
         .selectAll('text')
+            .attr('text-anchor', 'middle')
             .style('fill', '#303030')
             .style('font-family', 'sans-serif')
             .style('font-size', `${0.5 * remSize}px`)
@@ -155,7 +190,7 @@ function cvTimeline() {
         .style('stroke', '#303030');
 
     // const brush = d3.brushX()
-    //     .extent([[sideMargin, remSize * 1.5], [width, remSize * 2]])
+    //     .extent([[sideMargin / 2, remSize * 1.5], [width - sideMargin, remSize * 2]])
     //     .on('end', brushed);
 
     // svg.append('g')
@@ -168,6 +203,8 @@ function cvTimeline() {
     //     ])
 
     // svg.selectAll('.brush').selectAll('rect')
+    //     .attr('rx', remSize / 4)
+    //     .attr('ry', remSize / 4)
         
     // svg.selectAll('.selection')
     //     .style('fill', '#303030')
@@ -607,7 +644,7 @@ const cvEvents = [
         daterange: ['05/2011', '08/2011']
     },
     {
-        event: '4K for Cancer leg leader',
+        event: '4K for Cancer cross-country bicycle trip leg leader',
         daterange: ['02/2012', '08/2012']
     },
     {
