@@ -54,31 +54,55 @@ function cvTimeline() {
     const parentHeight = parentDiv.style('height').replace('px', '');
 
 
-    // const titleSvg = parentDiv.append('svg')
-    //     .style('position', 'relative')
-    //     .style('height', `${parentHeight / 8}px`)
-    //     .style('width', `${parentWidth}px`)
-    //     .attr('preserveAspectRatio', 'xMinYMin meet')
-    //     .style('z-index', 2)
+    const titleSvg = parentDiv.append('svg')
+        .style('position', 'relative')
+        .style('height', `${parentHeight / 6}px`)
+        .style('width', `${parentWidth}px`)
+        .attr('preserveAspectRatio', 'xMinYMin meet')
+        .style('z-index', 2)
 
-    // const title = 'A Colorful History'.split('')
-    // const center = parentWidth / 2
+    const title = 'A Colorful History'.split('')
+    const center = parentWidth / 2
+    const titleFontSize = 2 * remSize
 
-    // titleSvg.append('g')
-    //     .attr('class', 'cvTitle')
-    //     .selectAll('text')
-    //     .data(title)
-    //     .enter().append('text')
-    //         .attr('height', 10)
-    //         .attr('width', 10)
-    //         .text(d => d)
-    //         .attr('x', function(d, i) {
-    //             const titleCenter = title.length / 2.0
-                
-
-    //             i > title.length / 2 ? center + i * remSize : 
-    //         })
-    //         .attr('y', 10)
+    const titleGroup = titleSvg.append('g')
+        .attr('class', 'cvTitle')
+        .selectAll('text')
+        .data(title)
+        .enter().append('text')
+            .style('font-family', 'Aclonica')
+            .attr('text-anchor', 'middle')
+            .style('font-size', `${titleFontSize}px`)
+            .attr('height', 10)
+            .attr('width', 10)
+            .text(d => d)
+            .attr('x', function(d, i) {
+                const distBtwnLetters = titleFontSize * 0.7
+                const offsetRL = title.length % 2 === 0 ? distBtwnLetters / 2.0 : 0
+                const titleCenter = title.length / 2.0
+                if (i === titleCenter) {
+                    return center
+                } else if (i < titleCenter) {
+                    return center - offsetRL - (titleCenter - i) * distBtwnLetters
+                } else if (i > titleCenter) {
+                    return center + offsetRL + (i - titleCenter) * distBtwnLetters
+                }
+            })
+            .attr('y', titleFontSize)
+            .on('mouseover', function(d, i) {
+                const thisColor = eventColors[i % eventColors.length]
+                d3.select(this).transition()
+                    .duration(150)
+                    .style('fill', thisColor)
+            })
+            .on('mouseout', function() {
+                const el = d3.select(this)
+                setTimeout(function() {
+                    el.transition()
+                        .duration(1000)
+                        .style('fill', '#303030')
+                }, 750)
+            })
 
     const svg = parentDiv.append('svg')
         .style('position', 'relative')
