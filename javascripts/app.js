@@ -122,7 +122,7 @@ function cvTimeline() {
     svg.selectAll('.overlay').attr('pointer-events', 'none')
 
 
-    const paddingBetweenRows = remSize / 8;
+    const paddingBetweenRows = remSize / 16;
     const tooltip = makeToolTip()
 
     svg.append('g')
@@ -135,10 +135,10 @@ function cvTimeline() {
             .attr('width', function(d) {
                 return x(dateFromSlashy(d.daterange[1])) - x(dateFromSlashy(d.daterange[0]))
             })
-            .attr('height', remSize)
+            .attr('height', remSize / 2)
             .attr('x', d => x(dateFromSlashy(d.daterange[0])))
             .attr('y', function(d, i) {
-                d.y = d.layerNum * remSize + (1 + d.layerNum) * paddingBetweenRows
+                d.y = d.layerNum * (remSize / 2) + (1 + d.layerNum) * paddingBetweenRows
                 return d.y
             })
             .attr("rx", remSize / 4)
