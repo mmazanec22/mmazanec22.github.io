@@ -68,23 +68,6 @@ function assignLayersToEvents() {
     }
 }
 
-function twinklecvTitle(intervalLength = 75) {
-    let letterIndex = 0
-    const t = d3.interval(function(elapsed) {
-        const thisColor = eventColors[letterIndex % eventColors.length]
-        d3.selectAll(`.titleLetter${letterIndex}`).transition()
-            .duration(intervalLength)
-            .style('fill', thisColor)
-
-        d3.selectAll(`.titleLetter${letterIndex - 1}`).transition()
-            .duration(1500)
-            .style('fill', '#303030')
-
-        letterIndex += 1
-        if (letterIndex > cvTitle.length) t.stop();
-    }, intervalLength);
-}
-
 function cvTimeline() {
 
     const remSize = parseFloat(getComputedStyle(d3.select('html').node()).fontSize);
@@ -281,160 +264,11 @@ function cvTimeline() {
 
         d3.select(this).transition().call(d3.event.target.move, d1.map(x));
         }
-} // timeline
+}
 
 function dateFromSlashy(slashyDate) {
     const slashyArray = slashyDate.split('/')
     return new Date(slashyArray[1], slashyArray[0])
-}
-
-function overlapIndices(d, inputIndex) {
-    return cvEvents.filter(function(e, eventIndex) {
-        if (eventIndex === inputIndex) {
-            return false
-        }
-        e.index = eventIndex
-        return dateFromSlashy(e.daterange[0]) < dateFromSlashy(d.daterange[1]) && dateFromSlashy(d.daterange[0]) < dateFromSlashy(e.daterange[1]) && d.layerNum === e.layerNum
-    }).map( (e) => e.index)
-}
-
-function makeToolTip() {  
-    const tooltip = d3.select('body').append('div')
-        .attr('class', 'tooltip')
-        .style('position', 'absolute')
-        .style('font-size', '0.75rem')
-        .style('z-index', '1')
-        .style('font-family', 'Aclonica')
-
-    tooltip.append('text')
-        .text('tooltip')
-        .attr('text-anchor', 'middle')
-        .style('color', 'black');
-
-    tooltip.style('display', 'none')
-
-    return tooltip;
-}
-
-function moveToolTip(tooltip) {
-    const svg = d3.select('#timeline').select('svg');
-    tooltip.style('display', 'unset');
-
-    const svgDimensions = svg.node().getBoundingClientRect();
-    const eventXRelToScroll = d3.event.pageX - window.scrollX;
-    const eventYRelToScroll = d3.event.pageY - window.scrollY;
-    const tooltipDimensions = tooltip.node().getBoundingClientRect();
-
-    let tipX = (eventXRelToScroll) + 15;
-    let tipY = (eventYRelToScroll) + tooltipDimensions.height + 35;
-
-
-    tipX = (tipX + tooltipDimensions.width > svgDimensions.right) ?
-        tipX - tooltipDimensions.width - 35 : tipX;
-
-    tipY = (tipY + tooltipDimensions.height > svgDimensions.bottom) ?
-        tipY - tooltipDimensions.height * 2 : tipY;
-
-    tooltip
-        .transition()
-        .duration(10)
-        .style('top', `${tipY}px`)
-        .style('left', `${tipX}px`);
-}
-
-function stickFooterToBottom() {
-    document.body.style.height = "100%";
-    document.body.style.width = "100%";
-
-    var winHeight = window.innerHeight;
-    var winWidth = window.innerWidth;
-    var bodyHeight = document.body.offsetHeight;
-    var bodyWidth = document.body.offsetWidth;
-    var footerDiv = document.getElementById("footer");
-    var footerHeight = footerDiv.offsetHeight;
-
-    if(winHeight > bodyHeight)
-    {
-        footerDiv.style.position = "absolute";
-        footerDiv.style.bottom = "0px";
-        document.body.style.height = winHeight + "px";
-        footerDiv.style.width = bodyWidth + "px";
-
-    } 
-    else {
-        footerDiv.style.position = "static";
-        footerDiv.style.width = bodyWidth + "px";
-    }
-}
-
-function renderHexbins() {
-    const svg = d3.select('#hexbin-div').select('svg');
-    const parentDiv = d3.select('#hexbin-div');
-    const width = svg.style('width').replace('px', '');
-    const height = svg.style('height').replace('px', '');
-    let minRadius = 40;
-    let maxRadius = 70;
-
-    d3.selectAll('.hexGroup').remove()
-
-    const options = {
-        group1: '#00ccc5',
-        group2: '#f98423',
-        group3: '#fed762',
-    };
-
-
-    const dataset = [];
-
-    let numPoints = (width * height) / 100
-    numPoints = width > 2000 ? numPoints * 3 : numPoints
-    numPoints = width > 1400 ? numPoints * 2 : numPoints
-    if (width < 450) {
-        minRadius = minRadius * 0.75
-        maxRadius = maxRadius  * 0.75
-    }
-
-    for (let i = 0; i < numPoints; i++) {
-        if (i % 300 === 0) {
-            dataset.push({
-                group1: [getRandomInt(0, width), getRandomInt(0, height)],
-                group2: [getRandomInt(0, width), getRandomInt(0, height)],
-                group3: [getRandomInt(0, width), getRandomInt(0, height)],
-            });
-        } else {
-            dataset.push({
-                group3: [getRandomInt(0, width), getRandomInt(0, height)],
-            });
-        }
-    }
-
-    const keys = Object.keys(dataset[0]);
-
-
-    const hexbin = hackedBin(keys)
-        .radius(maxRadius);
-
-    const hexData = hexbin(dataset);
-
-    const radius = d3.scaleLinear()
-        .domain([0, hexData.length / 2])
-        .range([minRadius, maxRadius]);
-
-    const hexGroup = svg.append('g')
-        .attr('class', 'hexgroup')
-
-    hexGroup.selectAll('path')
-        .data(hexData)
-        .enter().append('path')
-            .attr('transform', d => `translate(${d.x}, ${d.y})`)
-            .attr('d', (d) => {
-                const thisRadius = radius(d.length);
-                return hexbin.hexagon(thisRadius);
-            })
-            .attr('fill', d => options[d.key])
-            .attr('stroke', d => options[d.key])
-            .attr('stroke-opacity', 0.4)
-            .attr('fill-opacity', 0.025) 
 }
 
 function getRandomInt(min, max) {
@@ -565,6 +399,172 @@ function hackedBin(keys) {
     };
 
     return hexbin.radius(1);
+}
+
+function makeToolTip() {  
+    const tooltip = d3.select('body').append('div')
+        .attr('class', 'tooltip')
+        .style('position', 'absolute')
+        .style('font-size', '0.75rem')
+        .style('z-index', '1')
+        .style('font-family', 'Aclonica')
+
+    tooltip.append('text')
+        .text('tooltip')
+        .attr('text-anchor', 'middle')
+        .style('color', 'black');
+
+    tooltip.style('display', 'none')
+
+    return tooltip;
+}
+
+function moveToolTip(tooltip) {
+    const svg = d3.select('#timeline').select('svg');
+    tooltip.style('display', 'unset');
+
+    const svgDimensions = svg.node().getBoundingClientRect();
+    const eventXRelToScroll = d3.event.pageX - window.scrollX;
+    const eventYRelToScroll = d3.event.pageY - window.scrollY;
+    const tooltipDimensions = tooltip.node().getBoundingClientRect();
+
+    let tipX = (eventXRelToScroll) + 15;
+    let tipY = (eventYRelToScroll) + tooltipDimensions.height + 35;
+
+
+    tipX = (tipX + tooltipDimensions.width > svgDimensions.right) ?
+        tipX - tooltipDimensions.width - 35 : tipX;
+
+    tipY = (tipY + tooltipDimensions.height > svgDimensions.bottom) ?
+        tipY - tooltipDimensions.height * 2 : tipY;
+
+    tooltip
+        .transition()
+        .duration(10)
+        .style('top', `${tipY}px`)
+        .style('left', `${tipX}px`);
+}
+
+function overlapIndices(d, inputIndex) {
+    return cvEvents.filter(function(e, eventIndex) {
+        if (eventIndex === inputIndex) {
+            return false
+        }
+        e.index = eventIndex
+        return dateFromSlashy(e.daterange[0]) < dateFromSlashy(d.daterange[1]) && dateFromSlashy(d.daterange[0]) < dateFromSlashy(e.daterange[1]) && d.layerNum === e.layerNum
+    }).map( (e) => e.index)
+}
+
+function renderHexbins() {
+    const svg = d3.select('#hexbin-div').select('svg');
+    const parentDiv = d3.select('#hexbin-div');
+    const width = svg.style('width').replace('px', '');
+    const height = svg.style('height').replace('px', '');
+    let minRadius = 40;
+    let maxRadius = 70;
+
+    d3.selectAll('.hexGroup').remove()
+
+    const options = {
+        group1: '#00ccc5',
+        group2: '#f98423',
+        group3: '#fed762',
+    };
+
+
+    const dataset = [];
+
+    let numPoints = (width * height) / 100
+    numPoints = width > 2000 ? numPoints * 3 : numPoints
+    numPoints = width > 1400 ? numPoints * 2 : numPoints
+    if (width < 450) {
+        minRadius = minRadius * 0.75
+        maxRadius = maxRadius  * 0.75
+    }
+
+    for (let i = 0; i < numPoints; i++) {
+        if (i % 300 === 0) {
+            dataset.push({
+                group1: [getRandomInt(0, width), getRandomInt(0, height)],
+                group2: [getRandomInt(0, width), getRandomInt(0, height)],
+                group3: [getRandomInt(0, width), getRandomInt(0, height)],
+            });
+        } else {
+            dataset.push({
+                group3: [getRandomInt(0, width), getRandomInt(0, height)],
+            });
+        }
+    }
+
+    const keys = Object.keys(dataset[0]);
+
+
+    const hexbin = hackedBin(keys)
+        .radius(maxRadius);
+
+    const hexData = hexbin(dataset);
+
+    const radius = d3.scaleLinear()
+        .domain([0, hexData.length / 2])
+        .range([minRadius, maxRadius]);
+
+    const hexGroup = svg.append('g')
+        .attr('class', 'hexgroup')
+
+    hexGroup.selectAll('path')
+        .data(hexData)
+        .enter().append('path')
+            .attr('transform', d => `translate(${d.x}, ${d.y})`)
+            .attr('d', (d) => {
+                const thisRadius = radius(d.length);
+                return hexbin.hexagon(thisRadius);
+            })
+            .attr('fill', d => options[d.key])
+            .attr('stroke', d => options[d.key])
+            .attr('stroke-opacity', 0.4)
+            .attr('fill-opacity', 0.025) 
+}
+
+function stickFooterToBottom() {
+    document.body.style.height = "100%";
+    document.body.style.width = "100%";
+
+    var winHeight = window.innerHeight;
+    var winWidth = window.innerWidth;
+    var bodyHeight = document.body.offsetHeight;
+    var bodyWidth = document.body.offsetWidth;
+    var footerDiv = document.getElementById("footer");
+    var footerHeight = footerDiv.offsetHeight;
+
+    if(winHeight > bodyHeight)
+    {
+        footerDiv.style.position = "absolute";
+        footerDiv.style.bottom = "0px";
+        document.body.style.height = winHeight + "px";
+        footerDiv.style.width = bodyWidth + "px";
+
+    } 
+    else {
+        footerDiv.style.position = "static";
+        footerDiv.style.width = bodyWidth + "px";
+    }
+}
+
+function twinklecvTitle(intervalLength = 75) {
+    let letterIndex = 0
+    const t = d3.interval(function(elapsed) {
+        const thisColor = eventColors[letterIndex % eventColors.length]
+        d3.selectAll(`.titleLetter${letterIndex}`).transition()
+            .duration(intervalLength)
+            .style('fill', thisColor)
+
+        d3.selectAll(`.titleLetter${letterIndex - 1}`).transition()
+            .duration(1500)
+            .style('fill', '#303030')
+
+        letterIndex += 1
+        if (letterIndex > cvTitle.length) t.stop();
+    }, intervalLength);
 }
 
 const eventColors = [
