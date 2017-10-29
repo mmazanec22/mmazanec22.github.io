@@ -13,7 +13,7 @@ a {
 }
 
 #container {
-    height: 100vh;
+    height: 97vh;
     overflow-y: scroll;
     position: relative;
 }
@@ -87,7 +87,7 @@ a {
     left: 2rem;
     padding: 1rem;
     margin: 0 auto;
-    width: 80vw;
+    width: 85vw;
     color: #303030;
     letter-spacing: 2px;
 }
@@ -155,7 +155,7 @@ a {
         left: 1rem;
         padding: 0%;
         margin: 1rem;
-        width: 80vw;
+        width: 90vw;
     }
     div.headshot {
         display: none;
