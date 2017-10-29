@@ -58,7 +58,7 @@ function cvTimeline() {
         .attr('preserveAspectRatio', 'xMinYMin meet')
         .style('z-index', 2)
 
-    const sideMargin = parentWidth * 0.05;
+    const sideMargin = parentWidth * 0.025;
     const topMargin = parentHeight * 0.1;
     const width = parentWidth - sideMargin * 2
     const height = parentHeight - topMargin

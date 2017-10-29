@@ -99,6 +99,7 @@ a {
 }
 
 #timeline{
+    left: 0;
     position: absolute;
     margin-top: 10vh;
     height: 60vh;
