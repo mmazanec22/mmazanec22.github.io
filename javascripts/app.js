@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    d3.selectAll('#info .bio, .headshot').style('display', 'none')
-    // d3.selectAll('#info .cv').style('display', 'unset')
+    d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'none')
     cvTimeline()
 
     d3.selectAll('#nav .link').on('click', function() {
@@ -9,11 +8,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (clickedThing.classed('bio')) {
             d3.selectAll('#timeline').selectAll('*').remove()
-            // d3.selectAll('#info .cv').style('display', 'none')
-            d3.selectAll('#info .bio, .headshot').style('display', 'unset')
+            d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'unset')
         } else {
-            d3.selectAll('#info .bio, .headshot').style('display', 'none')
-            // d3.selectAll('#info .cv').style('display', 'unset')
+            d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'none')
             cvTimeline()
         }
 
@@ -27,92 +24,13 @@ window.addEventListener("resize", function() {
     stickFooterToBottom()
 });
 
-const cvEvents = [
-    {
-        'event': 'Interlochen Arts Academy',
-        'daterange': ['8/2006', '5/2007']
-    },
-    {
-        'event': 'Utrecht Conservatory',
-        'daterange': ['8/2007', '6/2008']
-    },
-    {
-        'event': 'Cruise ship show band musician',
-        'daterange': ['07/2008', '08/2009']
-    },
-    {
-        'event': 'Oberlin Conservatory',
-        'daterange': ['9/2008', '12/2011']
-    },
-    {
-        'event': 'Au Pair in Spain',
-        'daterange': ['05/2010', '08/2010']
-    },
-    {
-        'event': 'Summer school teacher',
-        'daterange': ['05/2011', '08/2011']
-    },
-    {
-        'event': '4K for Cancer leg leader',
-        'daterange': ['02/2012', '08/2012']
-    },
-    {
-        'event': 'Kindergarten co-teacher',
-        'daterange': ['10/2012', '03/2013']
-    },
-    {
-        'event': 'Sold bicycles',
-        'daterange': ['03/2013', '09/2013']
-    },
-    {
-        'event': 'Polka band',
-        'daterange': ['05/2013', '09/2013']
-    },
-    {
-        'event': 'After school music program coordinater and teacher',
-        'daterange': ['09/2013', '05/2014']
-    },
-    {
-        'event': 'Special needs tutor',
-        'daterange': ['03/2014', '06/2014']
-    },
-    {
-        'event': 'CSU Levin College of Urban Affairs MPA',
-        'daterange': ['09/2014', '05/2016']
-    },
-    {
-        'event': 'CSU brass quintet and El Sistema scholarship',
-        'daterange': ['09/2014', '05/2015']
-    },
-    {
-        'event': 'Resource development research intern at United Way',
-        'daterange': ['10/2014', '05/2015']
-    },
-    {
-        'event': 'Graduate assistant',
-        'daterange': ['01/2015', '06/2016']
-    },
-    {
-        'event': 'Dev Bootcamp',
-        'daterange': ['05/2016', '09/2016']
-    },
-    {
-        'event': 'Developer at 5th Column',
-        'daterange': ['01/2017', '10/2017']
-    },
-    {
-        'event': 'Volunteer tech lead at the Difference Engine',
-        'daterange': ['09/2017', '10/2017']
-    },
-]
-
 const eventColors = [
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'dodgerblue',
-    'purple'
+    '#cc3300',
+    '#ff9933',
+    '#ffcc00',
+    '#408000',
+    '#0066cc',
+    '#884dff'
 ]
 
 function dateFromSlashy(slashyDate) {
@@ -178,24 +96,24 @@ function cvTimeline() {
     xAxisElements.selectAll('line')
         .style('stroke', '#787882');
 
-    const brush = d3.brushX()
-        .extent([[sideMargin, 0 - height - remSize], [width, -remSize * 5]])
-        .on('end', brushed);
+    // const brush = d3.brushX()
+    //     .extent([[sideMargin, 0 - height - remSize], [width, -remSize * 5]])
+    //     .on('end', brushed);
 
-    svg.append('g')
-        .attr('transform', `translate(${sideMargin},${topMargin + height/4})`)
-        .attr("class", "brush")
-        .call(brush)
-        .call(brush.move, [
-            x(new Date(2017, 0)),
-            x(new Date(2018, 0))
-        ])
+    // svg.append('g')
+    //     .attr('transform', `translate(${sideMargin},${topMargin + height/4})`)
+    //     .attr("class", "brush")
+    //     .call(brush)
+    //     .call(brush.move, [
+    //         x(new Date(2017, 0)),
+    //         x(new Date(2018, 0))
+    //     ])
 
-    svg.selectAll('.brush').selectAll('rect')
+    // svg.selectAll('.brush').selectAll('rect')
         
-    svg.selectAll('.selection').style('fill', '#00ccc5')
-    svg.selectAll('rect.handle').remove()
-    svg.selectAll('.overlay').attr('pointer-events', 'none')
+    // svg.selectAll('.selection').style('fill', '#00ccc5')
+    // svg.selectAll('rect.handle').remove()
+    // svg.selectAll('.overlay').attr('pointer-events', 'none')
 
     function overlapIndices(d, inputIndex) {
         return cvEvents.filter(function(e, eventIndex) {
@@ -203,11 +121,13 @@ function cvTimeline() {
                 return false
             }
             e.index = eventIndex
-            return dateFromSlashy(e.daterange[0]) < dateFromSlashy(d.daterange[1]) && dateFromSlashy(d.daterange[0]) < dateFromSlashy(e.daterange[1])
+            return dateFromSlashy(e.daterange[0]) < dateFromSlashy(d.daterange[1]) && dateFromSlashy(d.daterange[0]) < dateFromSlashy(e.daterange[1]) && d.layerNum === e.layerNum
         }).map( (e) => e.index)
     }
 
     const paddingBetweenRows = remSize / 8;
+    const tooltip = makeToolTip()
+    assignLayersToEvents()
 
     svg.append('g')
         .attr('class', 'events')
@@ -221,7 +141,6 @@ function cvTimeline() {
             .attr('height', remSize)
             .attr('x', d => x(dateFromSlashy(d.daterange[0])) + sideMargin)
             .attr('y', function(d, i) {
-                d.layerNum = overlapIndices(d, i).filter(index => index > i).length
                 d.y = d.layerNum * remSize + remSize * 1.5 + d.layerNum * paddingBetweenRows
                 return d.y
             })
@@ -230,6 +149,16 @@ function cvTimeline() {
             .style('fill', d => eventColors[d.layerNum])
             .style('stroke', d => eventColors[d.layerNum])
 
+    d3.select('g.events').selectAll('rect')
+        .on('mouseover', function(d){
+            tooltip.text(d.event)
+            moveToolTip(tooltip);
+        })
+        .on('mouseout', function(d) {
+            tooltip.style('display', 'none')
+        })
+
+    // TODO: BRUSH ADDS A PARAGRPH OF DETAIL ABOUT THAT YEAR OF MY LIFE
     function brushed() {
         let d0;
         let d1;
@@ -249,6 +178,74 @@ function cvTimeline() {
 
         d3.select(this).transition().call(d3.event.target.move, d1.map(x));
         }
+
+    function assignLayersToEvents() {
+        cvEvents.map(function(e, i) {
+            e.layerNum = 0
+            e.numConflicts = overlapIndices(e, i).length
+            return e
+        })
+
+        cvEvents.sort((a, b) => a.numConflicts - b.numConflicts)
+
+        let overlaps = true;
+        while (overlaps) {
+            let currentOverlaps = false;
+            cvEvents.forEach(function (e, eIndex) {
+                const theseOverlaps = overlapIndices(e, eIndex)
+                if (theseOverlaps.length !== 0) {
+                    e.layerNum += 1
+                    currentOverlaps = true
+                }
+            })
+            overlaps = currentOverlaps;
+        }
+    }
+
+} // timeline
+
+function makeToolTip() {
+    const svg = d3.select('#timeline').select('svg');
+  
+    const tooltip = d3.select('body').append('div')
+        .attr('class', 'tooltip')
+        .style('position', 'absolute')
+        .style('z-index', '1');
+
+    tooltip.append('text')
+        .text('tooltip')
+        .attr('text-anchor', 'middle')
+        .style('color', 'black');
+
+    tooltip.style('display', 'none')
+
+    return tooltip;
+}
+
+function moveToolTip(tooltip) {
+    const svg = d3.select('#timeline').select('svg');
+    tooltip.style('display', 'unset');
+
+    const svgDimensions = svg.node().getBoundingClientRect();
+    const eventXRelToScroll = d3.event.pageX - window.scrollX;
+    const eventYRelToScroll = d3.event.pageY - window.scrollY;
+
+    let tipX = (eventXRelToScroll) + 15;
+    let tipY = (eventYRelToScroll) + 10;
+
+    const tooltipDimensions = tooltip.node().getBoundingClientRect();
+
+    tipX = (eventXRelToScroll + tooltipDimensions.width + 10 > svgDimensions.right) ?
+        tipX - tooltipDimensions.width - 15 : tipX;
+
+    tipY = (eventYRelToScroll + tooltipDimensions.height + 10 > svgDimensions.bottom) ?
+        tipY - tooltipDimensions.height - 10 : tipY;
+
+    tooltip
+        .transition()
+        .duration(10)
+        .style('top', `${tipY}px`)
+        .style('left', `${tipX}px`);
 }
 
 function stickFooterToBottom() {
@@ -475,3 +472,90 @@ function hackedBin(keys) {
 
     return hexbin.radius(1);
 }
+
+const cvEvents = [
+    {
+        'event': 'Interlochen Arts Academy',
+        'daterange': ['8/2006', '5/2007']
+    },
+    {
+        'event': 'Utrecht Conservatory',
+        'daterange': ['8/2007', '6/2008']
+    },
+    {
+        'event': 'Cruise ship show band musician (intermittent)',
+        'daterange': ['07/2008', '08/2009']
+    },
+    {
+        'event': 'Oberlin Conservatory',
+        'daterange': ['9/2008', '12/2011']
+    },
+    {
+        'event': 'Au Pair in Spain',
+        'daterange': ['05/2010', '08/2010']
+    },
+    {
+        'event': 'Summer school teacher',
+        'daterange': ['05/2011', '08/2011']
+    },
+    {
+        'event': '4K for Cancer leg leader',
+        'daterange': ['02/2012', '08/2012']
+    },
+    {
+        'event': 'Kindergarten co-teacher',
+        'daterange': ['10/2012', '03/2013']
+    },
+    {
+        'event': 'Bad Girl Ventures entrepreneurship classes',
+        'daterange': ['03/2013', '05/2013']
+    },
+    {
+        'event': 'Sold bicycles',
+        'daterange': ['03/2013', '09/2013']
+    },
+    {
+        'event': 'Polka band',
+        'daterange': ['05/2013', '09/2013']
+    },
+    {
+        'event': 'After school music program coordinater and teacher',
+        'daterange': ['09/2013', '05/2014']
+    },
+    {
+        'event': 'Special needs tutor',
+        'daterange': ['03/2014', '06/2014']
+    },
+    {
+        'event': 'CSU Levin College of Urban Affairs MPA',
+        'daterange': ['09/2014', '05/2016']
+    },
+    {
+        'event': 'CSU brass quintet and El Sistema scholarship',
+        'daterange': ['09/2014', '05/2015']
+    },
+    {
+        'event': 'Resource development research intern at United Way',
+        'daterange': ['10/2014', '05/2015']
+    },
+    {
+        'event': 'Graduate assistant',
+        'daterange': ['01/2015', '06/2016']
+    },
+    {
+        'event': 'CSU Business Analytics Certificate',
+        'daterange': ['09/2015', '05/2016']
+    },
+    {
+        'event': 'Dev Bootcamp',
+        'daterange': ['05/2016', '09/2016']
+    },
+    {
+        'event': 'Developer at 5th Column',
+        'daterange': ['01/2017', '10/2017']
+    },
+    {
+        'event': 'Volunteer tech lead at the Difference Engine',
+        'daterange': ['09/2017', '10/2017']
+    },
+]
