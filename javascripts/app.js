@@ -147,9 +147,9 @@ function cvTimeline() {
             .style('stroke', d => eventColors[d.layerNum])
 
     d3.select('g.events').selectAll('rect')
-        .on('mouseover', function(d){
+        .on('mousemove', function(d) {
             tooltip.text(d.event)
-            moveToolTip(tooltip);
+            moveToolTip(tooltip)
         })
         .on('mouseout', function(d) {
             tooltip.style('display', 'none')
@@ -188,7 +188,7 @@ const eventColors = [
     '#39b2aa',
     '#0066cc',
     '#0000cc',
-    '#d6149f'
+    '#d6149f',
 ]
 
 function dateFromSlashy(slashyDate) {
@@ -531,6 +531,10 @@ const cvEvents = [
     {
         'event': 'Oberlin Conservatory',
         'daterange': ['9/2008', '12/2011']
+    },
+    {
+        'event': 'Bicycle down California coast',
+        'daterange': ['12/2009', '01/2010']
     },
     {
         'event': 'Au Pair in Spain',
