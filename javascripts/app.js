@@ -79,14 +79,14 @@ function cvTimeline() {
 
     const xAxisElements = svg.append('g')
         .attr('class', 'x axis')
-        .attr('transform', `translate(${sideMargin},${topMargin})`)
+        .attr('transform', `translate(${sideMargin/2},${topMargin})`)
         .call(xAxis);
 
     xAxisElements.selectAll('.tick')
-        .attr('transform', d => `translate(${0 + x(d)}, 0)`)
+        .attr('transform', d => `translate(${0 + x(d)}, ${remSize/4})`)
         .selectAll('text')
             .style('fill', '#303030')
-            .style('font-family', 'Aclonica')
+            .style('font-family', 'sans-serif')
             .style('font-size', `${0.5 * remSize}px`)
 
     xAxisElements.selectAll('path, line')
@@ -98,6 +98,7 @@ function cvTimeline() {
         .attr('stroke-width', `${remSize / 10}px`)
 
     xAxisElements.selectAll('line')
+        .style('opacity', 0)
         .style('stroke', '#303030');
 
     // const brush = d3.brushX()
@@ -130,7 +131,7 @@ function cvTimeline() {
         .selectAll('rect')
         .data(cvEvents)
         .enter().append('rect')
-            .attr('transform', `translate(${sideMargin},${topMargin})`)
+            .attr('transform', `translate(${sideMargin/2},${topMargin})`)
             .style('fill-opacity', 0.4)
             .attr('width', function(d) {
                 return x(dateFromSlashy(d.daterange[1])) - x(dateFromSlashy(d.daterange[0]))
