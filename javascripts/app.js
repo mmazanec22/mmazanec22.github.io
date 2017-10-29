@@ -85,6 +85,7 @@ function cvTimeline() {
     xAxisElements.selectAll('.tick')
         .attr('transform', d => `translate(${0 + x(d)}, 0)`)
         .selectAll('text')
+            .style('fill', '#303030')
             .style('font-family', 'Aclonica')
             .style('font-size', `${0.5 * remSize}px`)
 
@@ -92,32 +93,33 @@ function cvTimeline() {
         .style('shape-rendering', 'crispEdges');
 
     svg.select('path.domain')
-        .style('fill', 'none')
-        .style('stroke', 'navy')
+        .style('stroke', '#303030')
         .style('stroke-opacity', 0.1)
         .attr('stroke-width', `${remSize / 10}px`)
 
     xAxisElements.selectAll('line')
-        .style('stroke', '#787882');
+        .style('stroke', '#303030');
 
-    // const brush = d3.brushX()
-    //     .extent([[sideMargin, 0 - height - remSize], [width, -remSize * 5]])
-    //     .on('end', brushed);
+    const brush = d3.brushX()
+        .extent([[sideMargin, remSize * 1.5], [width, remSize * 2]])
+        .on('end', brushed);
 
-    // svg.append('g')
-    //     .attr('transform', `translate(${sideMargin},${topMargin + height/4})`)
-    //     .attr("class", "brush")
-    //     .call(brush)
-    //     .call(brush.move, [
-    //         x(new Date(2017, 0)),
-    //         x(new Date(2018, 0))
-    //     ])
+    svg.append('g')
+        .attr('transform', `translate(${sideMargin},0)`)
+        .attr("class", "brush")
+        .call(brush)
+        .call(brush.move, [
+            x(new Date(2017, 0)),
+            x(new Date(2018, 0))
+        ])
 
-    // svg.selectAll('.brush').selectAll('rect')
+    svg.selectAll('.brush').selectAll('rect')
         
-    // svg.selectAll('.selection').style('fill', '#00ccc5')
-    // svg.selectAll('rect.handle').remove()
-    // svg.selectAll('.overlay').attr('pointer-events', 'none')
+    svg.selectAll('.selection')
+        .style('fill', '#303030')
+        .style('fill-opacity', 0.1)
+    svg.selectAll('rect.handle').remove()
+    svg.selectAll('.overlay').attr('pointer-events', 'none')
 
 
     const paddingBetweenRows = remSize / 8;
