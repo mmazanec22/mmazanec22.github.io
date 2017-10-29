@@ -92,6 +92,7 @@ function cvTimeline() {
     const parentDiv = d3.select('#timeline')
 
     parentDiv.selectAll('*').remove()
+    d3.selectAll('.tooltip').remove()
 
     const parentWidth = parentDiv.style('width').replace('px', '');
     const parentHeight = parentDiv.style('height').replace('px', '');
@@ -226,6 +227,7 @@ function cvTimeline() {
 
     const paddingBetweenRows = remSize;
     const tooltip = makeToolTip()
+    const defaultEventRectFillOpacity = 0.4
 
     svg.append('g')
         .attr('class', 'events')
@@ -233,7 +235,7 @@ function cvTimeline() {
         .data(cvEvents)
         .enter().append('rect')
             .attr('transform', `translate(${sideMargin/2},${topMargin})`)
-            .style('fill-opacity', 0.4)
+            .style('fill-opacity', defaultEventRectFillOpacity)
             .attr('width', function(d) {
                 return x(dateFromSlashy(d.daterange[1])) - x(dateFromSlashy(d.daterange[0]))
             })
@@ -252,9 +254,11 @@ function cvTimeline() {
         .on('mousemove', function(d) {
             tooltip.text(d.event)
             moveToolTip(tooltip)
+            d3.select(this).style('fill-opacity', 0.9)
         })
         .on('mouseout', function(d) {
             tooltip.style('display', 'none')
+            d3.select(this).style('fill-opacity', defaultEventRectFillOpacity)
         })
 
     // TODO: BRUSH ADDS A PARAGRPH OF DETAIL ABOUT THAT YEAR OF MY LIFE
@@ -319,17 +323,17 @@ function moveToolTip(tooltip) {
     const svgDimensions = svg.node().getBoundingClientRect();
     const eventXRelToScroll = d3.event.pageX - window.scrollX;
     const eventYRelToScroll = d3.event.pageY - window.scrollY;
-
-    let tipX = (eventXRelToScroll) + 15;
-    let tipY = (eventYRelToScroll) + 15;
-
     const tooltipDimensions = tooltip.node().getBoundingClientRect();
 
-    tipX = (eventXRelToScroll + tooltipDimensions.width + 10 > svgDimensions.right) ?
-        tipX - tooltipDimensions.width - 15 : tipX;
+    let tipX = (eventXRelToScroll) + 15;
+    let tipY = (eventYRelToScroll) + tooltipDimensions.height + 35;
 
-    tipY = (eventYRelToScroll + tooltipDimensions.height + 10 > svgDimensions.bottom) ?
-        tipY - tooltipDimensions.height - 15 : tipY;
+
+    tipX = (tipX + tooltipDimensions.width > svgDimensions.right) ?
+        tipX - tooltipDimensions.width - 35 : tipX;
+
+    tipY = (tipY + tooltipDimensions.height > svgDimensions.bottom) ?
+        tipY - tooltipDimensions.height * 2 : tipY;
 
     tooltip
         .transition()
