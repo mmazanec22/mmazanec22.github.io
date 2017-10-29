@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", function() {
     assignLayersToEvents()
     cvEvents.sort((a, b) => dateFromSlashy(a.daterange[0]) - dateFromSlashy(b.daterange[0]))
 
+
+
+    d3.select('#container').style('background-color', '#f7f7f4')
     d3.selectAll('#info .bio, #hexbin-div').style('display', 'none')
     d3.selectAll('#timeline').style('display', 'unset')
     cvTimeline()
@@ -14,9 +17,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (clickedThing.classed('bio')) {
             d3.selectAll('#timeline').style('display', 'none')
+            d3.select('#container').style('background-color', 'transparent')
             d3.selectAll('#info .bio, #hexbin-div').style('display', 'unset')
         } else {
             d3.selectAll('#info .bio, #hexbin-div').style('display', 'none')
+            d3.select('#container').style('background-color', '#f7f7f4')
             d3.selectAll('#timeline').style('display', 'unset')
         }
 
