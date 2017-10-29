@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+    assignLayersToEvents()
+    cvEvents.sort((a, b) => dateFromSlashy(a.daterange[0]) - dateFromSlashy(b.daterange[0]))
+
     d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'none')
     d3.selectAll('#timeline').style('display', 'unset')
     cvTimeline()
@@ -8,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const clickedThing = d3.select(this)
 
         if (clickedThing.classed('bio')) {
-            d3.selectAll('#timeline').style('display', 'none')
+            d3.selectAll('#timeline').selectAll('*').remove()
             d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'unset')
         } else {
             d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'none')
@@ -26,22 +29,6 @@ window.addEventListener("resize", function() {
     cvTimeline()
 });
 
-const eventColors = [
-    '#cc3300',
-    '#ff9933',
-    '#ffcc00',
-    '#9cd615',
-    '#0b8e35',
-    '#39b2aa',
-    '#0066cc',
-    '#0000cc',
-    '#d6149f'
-]
-
-function dateFromSlashy(slashyDate) {
-    const slashyArray = slashyDate.split('/')
-    return new Date(slashyArray[1], slashyArray[0])
-}
 
 function cvTimeline() {
     const remSize = parseFloat(getComputedStyle(d3.select('html').node()).fontSize);
@@ -88,8 +75,8 @@ function cvTimeline() {
     xAxisElements.selectAll('.tick')
         .attr('transform', d => `translate(${0 + x(d)}, 0)`)
         .selectAll('text')
-        .style('font-size', `${0.7 * remSize}px`)
-
+            .style('font-family', 'Aclonica')
+            .style('font-size', `${0.6 * remSize}px`)
 
     xAxisElements.selectAll('path, line')
         .style('shape-rendering', 'crispEdges');
@@ -122,19 +109,9 @@ function cvTimeline() {
     // svg.selectAll('rect.handle').remove()
     // svg.selectAll('.overlay').attr('pointer-events', 'none')
 
-    function overlapIndices(d, inputIndex) {
-        return cvEvents.filter(function(e, eventIndex) {
-            if (eventIndex === inputIndex) {
-                return false
-            }
-            e.index = eventIndex
-            return dateFromSlashy(e.daterange[0]) < dateFromSlashy(d.daterange[1]) && dateFromSlashy(d.daterange[0]) < dateFromSlashy(e.daterange[1]) && d.layerNum === e.layerNum
-        }).map( (e) => e.index)
-    }
 
     const paddingBetweenRows = remSize / 8;
     const tooltip = makeToolTip()
-    assignLayersToEvents()
 
     svg.append('g')
         .attr('class', 'events')
@@ -186,31 +163,59 @@ function cvTimeline() {
         d3.select(this).transition().call(d3.event.target.move, d1.map(x));
         }
 
-    function assignLayersToEvents() {
-        cvEvents.map(function(e, i) {
-            e.layerNum = 0
-            e.numConflicts = overlapIndices(e, i).length
-            return e
-        })
-
-        cvEvents.sort((a, b) => a.numConflicts - b.numConflicts)
-
-        let overlaps = true;
-        let maxLayerNum = 0
-        while (overlaps) {
-            let currentOverlaps = false;
-            cvEvents.forEach(function (e, eIndex) {
-                const theseOverlaps = overlapIndices(e, eIndex)
-                if (theseOverlaps.length !== 0) {
-                    e.layerNum += 1
-                    currentOverlaps = true
-                }
-            })
-            overlaps = currentOverlaps;
-        }
-    }
 
 } // timeline
+
+const eventColors = [
+    '#cc3300',
+    '#ff9933',
+    '#ffcc00',
+    '#9cd615',
+    '#0b8e35',
+    '#39b2aa',
+    '#0066cc',
+    '#0000cc',
+    '#d6149f'
+]
+
+function dateFromSlashy(slashyDate) {
+    const slashyArray = slashyDate.split('/')
+    return new Date(slashyArray[1], slashyArray[0])
+}
+
+function assignLayersToEvents() {
+    cvEvents.map(function(e, i) {
+        e.layerNum = 0
+        e.numConflicts = overlapIndices(e, i).length
+        return e
+    })
+
+    cvEvents.sort((a, b) => a.numConflicts - b.numConflicts)
+
+    let overlaps = true;
+    let maxLayerNum = 0
+    while (overlaps) {
+        let currentOverlaps = false;
+        cvEvents.forEach(function (e, eIndex) {
+            const theseOverlaps = overlapIndices(e, eIndex)
+            if (theseOverlaps.length !== 0) {
+                e.layerNum += 1
+                currentOverlaps = true
+            }
+        })
+        overlaps = currentOverlaps;
+    }
+}
+
+function overlapIndices(d, inputIndex) {
+    return cvEvents.filter(function(e, eventIndex) {
+        if (eventIndex === inputIndex) {
+            return false
+        }
+        e.index = eventIndex
+        return dateFromSlashy(e.daterange[0]) < dateFromSlashy(d.daterange[1]) && dateFromSlashy(d.daterange[0]) < dateFromSlashy(e.daterange[1]) && d.layerNum === e.layerNum
+    }).map( (e) => e.index)
+}
 
 function makeToolTip() {  
     const tooltip = d3.select('body').append('div')
@@ -218,6 +223,7 @@ function makeToolTip() {
         .style('position', 'absolute')
         .style('font-size', '0.75rem')
         .style('z-index', '1')
+        .style('font-family', 'Aclonica')
 
     tooltip.append('text')
         .text('tooltip')
@@ -534,7 +540,7 @@ const cvEvents = [
         'daterange': ['03/2013', '05/2013']
     },
     {
-        'event': 'Sold bicycles',
+        'event': 'Bicycle sales associate',
         'daterange': ['03/2013', '09/2013']
     },
     {
