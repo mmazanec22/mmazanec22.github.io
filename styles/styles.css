@@ -64,7 +64,7 @@ a {
 }
 
 #hexbin-div {
-    height: 90vh;
+    height: 60vh;
     position: absolute;
     z-index: -1;
 }
@@ -81,62 +81,28 @@ a {
     left: 0pt;
 }
 
-div.headshot {
-    position: absolute;
-    right: 5vw;
-    top: 40vh;
-    width: 20vw;
-    height: 20vw;
-    overflow: hidden;
-    border-radius: 50%;
-    display: inline-block;
-    border: 2px solid #00ccc5;
-}
-
-img.headshot {
-    width: 100%;
-    height: auto;
-    filter: grayscale(60%);
-}
-
 #info {
     position: absolute;
-    height: 90vh;
+    height: 60vh;
     left: 2rem;
     padding: 1rem;
     margin: 0 auto;
-    width: 60vw;
+    width: 80vw;
+    color: #303030;
+    letter-spacing: 2px;
 }
 
-#info .bio, #info .cv {
+#info .bio {
     position: absolute;
     width: 100%;
     opacity: 1;
 }
 
-#info, #info td, #info a {
-    color: #303030;
-    letter-spacing: 2px;
-}
-
 #timeline{
     position: absolute;
-    top: 40%;
-    height: 100%;
-    width: 100%;
-}
-
-.edu-table {
-    text-align: bottom;
-    height: 30vh;
-}
-
-.edu-table td {
-    width: 50%;
-}
-
-.edu-table-td-1 {
-    padding-right: 2%;
+    margin-top: 10vh;
+    height: 60vh;
+    width: 100vw;
 }
 
 #footer-table {
@@ -167,18 +133,11 @@ img.headshot {
         font-size: 2rem;
         width: 40vw;
     }
-    #info-background {
-        height: 120vh;
-    }
 }
 
 @media only screen and (max-width: 650px) {
     body {
         font-size: 0.8rem;
-    }
-    .edu-table {
-        font-size: 0.8rem;
-        height: 40vh;
     }
     #header {
         display: inline-block;
@@ -192,7 +151,7 @@ img.headshot {
     #info {
         position: absolute;
         top: 6.25rem;
-        height: 120vh;
+        height: 100vh;
         left: 1rem;
         padding: 0%;
         margin: 1rem;

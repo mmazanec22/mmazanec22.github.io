@@ -3,38 +3,43 @@ document.addEventListener("DOMContentLoaded", function() {
     assignLayersToEvents()
     cvEvents.sort((a, b) => dateFromSlashy(a.daterange[0]) - dateFromSlashy(b.daterange[0]))
 
-    d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'none')
+    d3.selectAll('#info .bio, #hexbin-div').style('display', 'none')
     d3.selectAll('#timeline').style('display', 'unset')
     cvTimeline()
+    renderHexbins()
+    stickFooterToBottom()
 
     d3.selectAll('#nav .link').on('click', function() {
         const clickedThing = d3.select(this)
 
         if (clickedThing.classed('bio')) {
-            d3.selectAll('#timeline').selectAll('*').remove()
-            d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'unset')
+            d3.selectAll('#timeline').style('display', 'none')
+            d3.selectAll('#info .bio, #hexbin-div').style('display', 'unset')
         } else {
-            d3.selectAll('#info .bio, .headshot, #hexbin-div').style('display', 'none')
-            cvTimeline()
+            d3.selectAll('#info .bio, #hexbin-div').style('display', 'none')
+            d3.selectAll('#timeline').style('display', 'unset')
         }
 
     });
-    renderHexbins()
-    stickFooterToBottom()
 });
 
+let resizeTimer;
 window.addEventListener("resize", function() {
     renderHexbins()
     stickFooterToBottom()
-    cvTimeline()
+
+    clearTimeout(resizeTimer)
+    resizeTimer = setTimeout(function() {
+        cvTimeline()
+    }, 100)
 });
 
 
 function cvTimeline() {
+
     const remSize = parseFloat(getComputedStyle(d3.select('html').node()).fontSize);
 
     const parentDiv = d3.select('#timeline')
-        .attr('transform', `translate 0, ${window.innerHeight / 2}`)
 
     parentDiv.selectAll('*').remove()
 
@@ -49,7 +54,7 @@ function cvTimeline() {
         .style('z-index', 2)
 
     const sideMargin = parentWidth * 0.05;
-    const topMargin = parentHeight * 0.05;
+    const topMargin = parentHeight * 0.1;
     const width = parentWidth - sideMargin * 2
     const height = parentHeight - topMargin
 
@@ -76,7 +81,7 @@ function cvTimeline() {
         .attr('transform', d => `translate(${0 + x(d)}, 0)`)
         .selectAll('text')
             .style('font-family', 'Aclonica')
-            .style('font-size', `${0.6 * remSize}px`)
+            .style('font-size', `${0.5 * remSize}px`)
 
     xAxisElements.selectAll('path, line')
         .style('shape-rendering', 'crispEdges');
@@ -118,14 +123,15 @@ function cvTimeline() {
         .selectAll('rect')
         .data(cvEvents)
         .enter().append('rect')
+            .attr('transform', `translate(${sideMargin},${topMargin})`)
             .style('fill-opacity', 0.2)
             .attr('width', function(d) {
                 return x(dateFromSlashy(d.daterange[1])) - x(dateFromSlashy(d.daterange[0]))
             })
             .attr('height', remSize)
-            .attr('x', d => x(dateFromSlashy(d.daterange[0])) + sideMargin)
+            .attr('x', d => x(dateFromSlashy(d.daterange[0])))
             .attr('y', function(d, i) {
-                d.y = d.layerNum * remSize + remSize * 2.5 + d.layerNum * paddingBetweenRows
+                d.y = d.layerNum * remSize + (1 + d.layerNum) * paddingBetweenRows
                 return d.y
             })
             .attr("rx", remSize / 4)
