@@ -100,26 +100,26 @@ function cvTimeline() {
     xAxisElements.selectAll('line')
         .style('stroke', '#303030');
 
-    const brush = d3.brushX()
-        .extent([[sideMargin, remSize * 1.5], [width, remSize * 2]])
-        .on('end', brushed);
+    // const brush = d3.brushX()
+    //     .extent([[sideMargin, remSize * 1.5], [width, remSize * 2]])
+    //     .on('end', brushed);
 
-    svg.append('g')
-        .attr('transform', `translate(${sideMargin},0)`)
-        .attr("class", "brush")
-        .call(brush)
-        .call(brush.move, [
-            x(new Date(2017, 0)),
-            x(new Date(2018, 0))
-        ])
+    // svg.append('g')
+    //     .attr('transform', `translate(${sideMargin},0)`)
+    //     .attr("class", "brush")
+    //     .call(brush)
+    //     .call(brush.move, [
+    //         x(new Date(2017, 0)),
+    //         x(new Date(2018, 0))
+    //     ])
 
-    svg.selectAll('.brush').selectAll('rect')
+    // svg.selectAll('.brush').selectAll('rect')
         
-    svg.selectAll('.selection')
-        .style('fill', '#303030')
-        .style('fill-opacity', 0.1)
-    svg.selectAll('rect.handle').remove()
-    svg.selectAll('.overlay').attr('pointer-events', 'none')
+    // svg.selectAll('.selection')
+    //     .style('fill', '#303030')
+    //     .style('fill-opacity', 0.1)
+    // svg.selectAll('rect.handle').remove()
+    // svg.selectAll('.overlay').attr('pointer-events', 'none')
 
 
     const paddingBetweenRows = remSize / 16;
