@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
     stickFooterToBottom()
     twinklecvTitle()
 
-    d3.selectAll('#nav .link').on('click', function() {
+    d3.selectAll('#navcontainer .link').on('click', function() {
         const clickedThing = d3.select(this)
 
         if (clickedThing.classed('bio')) {
@@ -96,8 +96,9 @@ function cvTimeline() {
         .selectAll('text')
         .data(cvTitle)
         .enter().append('text')
-            .style('font-family', 'Aclonica')
+            .style('font-family', 'Trebuchet MS, Helvetica, sans-serif')
             .attr('text-anchor', 'middle')
+            .style('font-weight', 'bold')
             .style('font-size', `${cvTitleFontSize}px`)
             .attr('height', 10)
             .attr('width', 10)
@@ -210,7 +211,7 @@ function cvTimeline() {
 
     const paddingBetweenRows = remSize;
     const tooltip = makeToolTip()
-    const defaultEventRectFillOpacity = 0.4
+    const defaultEventRectFillOpacity = 0.25
 
     svg.append('g')
         .attr('class', 'events')
@@ -237,7 +238,7 @@ function cvTimeline() {
         .on('mousemove', function(d) {
             tooltip.text(d.event)
             moveToolTip(tooltip)
-            d3.select(this).style('fill-opacity', 0.9)
+            d3.select(this).style('fill-opacity', 0.5)
         })
         .on('mouseout', function(d) {
             tooltip.style('display', 'none')
@@ -407,7 +408,7 @@ function makeToolTip() {
         .style('position', 'absolute')
         .style('font-size', '0.75rem')
         .style('z-index', '1')
-        .style('font-family', 'Aclonica')
+        .style('font-family', 'Trebuchet MS, Helvetica, sans-serif')
 
     tooltip.append('text')
         .text('tooltip')
