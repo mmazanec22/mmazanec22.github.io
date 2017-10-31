@@ -6,13 +6,13 @@ document.addEventListener("DOMContentLoaded", function() {
     cvEvents.sort((a, b) => dateFromSlashy(a.daterange[0]) - dateFromSlashy(b.daterange[0]))
 
 
-    d3.select('#container').style('background-color', '#f7f7f4')
-    d3.selectAll('#info .bio, #hexbin-div').style('display', 'none')
-    d3.selectAll('#timeline').style('display', 'unset')
+    d3.selectAll('#info .bio, #hexbin-div').style('display', 'unset')
+    d3.selectAll('#timeline').style('display', 'none')
+    d3.select('#container').style('background-color', '#transparent')
     cvTimeline()
     renderHexbins()
     stickFooterToBottom()
-    twinklecvTitle()
+    // twinklecvTitle()
 
     d3.selectAll('#navcontainer .link').on('click', function() {
         const clickedThing = d3.select(this)
