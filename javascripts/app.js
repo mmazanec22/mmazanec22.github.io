@@ -89,7 +89,7 @@ function cvTimeline() {
         .style('z-index', 2)
 
     const center = parentWidth / 2
-    const cvTitleFontSize = (parentWidth - remSize * 2) / cvTitle.length
+    const cvTitleFontSize = Math.max(remSize * 1.5, Math.min(parentWidth - remSize * 2, parentHeight) / cvTitle.length)
 
     const cvTitleGroup = cvTitleSvg.append('g')
         .attr('class', 'cvcvTitle')

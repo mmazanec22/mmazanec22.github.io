@@ -138,7 +138,7 @@ a {
 }
 
 @media only screen and (max-width: 650px) {
-    body {
+    html, body {
         font-size: 0.8rem;
     }
     #header {
@@ -173,8 +173,9 @@ a {
         top: 0.5rem;
     }
     #info {
+        font-size: 0.95rem;
         position: absolute;
-        top: 6.25rem;
+        top: 2.5rem;
         height: 80vh;
         left: 10vw;
         padding: 0%;
