@@ -58,12 +58,12 @@ a {
 
 .bio.link {
     position: absolute;
-    right: 4vw;
+    right: 14vw;
 }
 
 .cv.link {
     position: absolute;
-    right: 14vw;
+    right: 4vw;
 }
 
 #hexbin-div {
