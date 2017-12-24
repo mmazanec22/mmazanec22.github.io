@@ -19,10 +19,10 @@ const cvEvents = [
         event: 'Interlochen Arts Academy',
         daterange: ['8/2006', '5/2007']
     },
-    {
-        event: 'Crossing guard at Interlochen Arts Camp',
-        daterange: ['06/2007', '08/2007']
-    },
+    // {
+    //     event: 'Crossing guard at Interlochen Arts Camp',
+    //     daterange: ['06/2007', '08/2007']
+    // },
     {
         event: 'Utrecht Conservatory',
         daterange: ['8/2007', '6/2008']

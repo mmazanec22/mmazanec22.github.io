@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
     cvTimeline()
     renderHexbins()
     stickFooterToBottom()
-    // twinklecvTitle()
 
     d3.selectAll('#navcontainer .link').on('click', function() {
         const clickedThing = d3.select(this)
@@ -89,16 +88,17 @@ function cvTimeline() {
         .style('z-index', 2)
 
     const center = parentWidth / 2
-    const cvTitleFontSize = Math.max(remSize * 2, Math.min(parentWidth - remSize * 2, parentHeight) / cvTitle.length)
+    const cvTitleFontSize = Math.max(remSize * 2, Math.min(parentWidth - remSize * 2.5, parentHeight) / cvTitle.length)
 
     const cvTitleGroup = cvTitleSvg.append('g')
         .attr('class', 'cvcvTitle')
         .selectAll('text')
         .data(cvTitle)
         .enter().append('text')
-            .style('font-family', '"Palatino Linotype", "Book Antiqua", Palatino, serif')
+            .style('font-family', 'Verdana, Geneva, sans-serif')
+            .style('fill', '#330000')
             .attr('text-anchor', 'middle')
-            .style('font-weight', 'lighter')
+            .style('font-weight', 'bold')
             .style('font-size', `${cvTitleFontSize}px`)
             .attr('height', 10)
             .attr('width', 10)
@@ -169,7 +169,7 @@ function cvTimeline() {
         .selectAll('text')
             .attr('text-anchor', 'middle')
             .attr('class', (d, i) => `titleLetter${d.index + 2}`)
-            .style('fill', '#330000')
+            .style('fill', '#3300000')
             .style('font-family', 'sans-serif')
             .style('font-size', `${0.5 * remSize}px`)
             .style('font-weight', 'bold')
@@ -179,7 +179,7 @@ function cvTimeline() {
         .style('shape-rendering', 'crispEdges');
 
     svg.select('path.domain')
-        .style('stroke', '#330000')
+        .style('stroke', '#3300000')
         .style('stroke-opacity', 0.1)
         .attr('stroke-width', `${remSize / 10}px`)
 
@@ -563,7 +563,7 @@ function twinklecvTitle(intervalLength = 75) {
 
         d3.selectAll(`.titleLetter${letterIndex - 1}`).transition()
             .duration(1500)
-            .style('fill', '#303030')
+            .style('fill', '#330000')
 
         letterIndex += 1
         if (letterIndex > cvTitle.length) t.stop();

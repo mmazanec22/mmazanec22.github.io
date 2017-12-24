@@ -77,7 +77,7 @@ a {
     color: #330000;
     letter-spacing: 2px;
     font-size: 1.15rem;
-    line-height: 1.75rem;
+    line-height: 1.65rem;
 }
 
 #info .bio {
@@ -95,7 +95,7 @@ a {
     position: relative;
     font-size: 3.25em;
     line-height: 3.25rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0.75rem;
 }
 
 #timeline{
