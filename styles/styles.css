@@ -1,7 +1,7 @@
 html, body {
     height: 100vh;
     width: 100vw;
-    font-family: Trebuchet MS, Helvetica, sans-serif;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     margin: 0;
     overflow: scroll;
     padding: 0;
@@ -18,88 +18,83 @@ a {
 }
 
 .header-footer {
-    background-color: #00ccc5;
-    color: #f7f7f4;
+    font-family: Verdana, Geneva, sans-serif;
     opacity: 0.7;
     z-index: 1;
-}
-
-#header {
-    display: inline-block;
-    height: 3rem;
     width: 100vw;
 }
 
-#header h1 {
-    /*display: inline-block;*/
-    /*font-size: 5rem;*/
-    /*font-weight: lighter;*/
-    /*letter-spacing: 0.1vh;*/
-    margin-left: 5vw;
-    /*text-align: left;*/
-    /*width: 60vw;*/
-    position: relative;
-    top: -0.5rem;
-}
-
 #navcontainer {
-    /*text-align: bottom;*/
     position: absolute;
-    /*display: inline-block;*/
     right: 3vw;
     text-align: right;
-    /*width: 20vw;*/
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    letter-spacing: .1rem;
+    letter-spacing: .2rem;
     font-weight: lighter;
-    top: 0.9rem;
+    top: 0.75rem;
+    color: #00ccc5;
+    display: inline-block;
+    height: 1.5rem;
 }
 
 .bio.link {
     position: absolute;
-    right: 14vw;
+    right: 10.5vw;
 }
 
 .cv.link {
     position: absolute;
-    right: 4vw;
+    right: 1.5vw;
 }
 
 #hexbin-div {
     height: 60vh;
     position: absolute;
-    z-index: -1;
+    z-index: 0;
 }
 
 #hexbin-div svg {
     background-color: #f7f7f4;
     width: 100vw;
     height: 100vh;
-    z-index: -1;
+    z-index: 0;
     background-attachment: scroll;
     background-position: 0% 0%;
     position: fixed;
     bottom: 0pt;
     left: 0pt;
+    opacity: 0.8;
 }
 
 #info {
     position: absolute;
     height: 60vh;
     left: 15vw;
-    top: 20vh;
+    top: 10vh;
     margin: 0 auto;
     width: 70vw;
-    color: #303030;
+    color: #330000;
     letter-spacing: 2px;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
+    line-height: 1.75rem;
 }
 
 #info .bio {
     position: absolute;
     width: 100%;
     opacity: 1;
+}
+
+.bio h1 {
+    font-family: Verdana, Geneva, sans-serif;
+    color: #00ccc5;
+    font-weight: bold;
+    letter-spacing: 1.25rem;
+    text-align: center;
+    position: relative;
+    font-size: 3.25em;
+    padding-bottom: 1rem;
 }
 
 #timeline{
@@ -110,6 +105,10 @@ a {
     width: 100vw;
 }
 
+#footer {
+    background-color: #00ccc5;
+}
+
 #footer-table {
     width: 50%;
     margin: 0 auto;
@@ -118,7 +117,7 @@ a {
 
 #footer a {
     color: #f7f7f4;
-    letter-spacing: 1.5px;
+    letter-spacing: 0.15rem;
     font-size: 0.7rem;
     font-weight: lighter;
 }
@@ -148,24 +147,15 @@ a {
     }
     #header h1 {
         font-size: 1.6rem;
-        /*display: inline-block;*/
-        /*font-size: 5rem;*/
-        /*font-weight: lighter;*/
-        /*letter-spacing: 0.1vh;*/
         margin-left: 5vw;
-        /*text-align: left;*/
-        /*width: 60vw;*/
         position: relative;
         top: -0.5rem;
     }
 
     #navcontainer {
-        /*text-align: bottom;*/
         position: absolute;
-        /*display: inline-block;*/
         right: 3vw;
         text-align: right;
-        /*width: 20vw;*/
         font-size: 0.8rem;
         cursor: pointer;
         letter-spacing: .1rem;

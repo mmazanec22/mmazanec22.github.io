@@ -137,10 +137,10 @@ const cvEvents = [
     },
     {
         event: 'Developer at 5th Column',
-        daterange: ['01/2017', '10/2017']
+        daterange: ['01/2017', '12/2017']
     },
     {
         event: 'Volunteer tech lead at the Difference Engine',
-        daterange: ['09/2017', '10/2017']
+        daterange: ['09/2017', '11/2017']
     },
 ]

@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
             d3.select('#container').style('background-color', 'transparent')
             d3.selectAll('#info .bio, #hexbin-div').style('display', 'unset')
         } else {
-            d3.selectAll('#info .bio, #hexbin-div').style('display', 'none')
+            d3.selectAll('#info .bio').style('display', 'none')
             d3.select('#container').style('background-color', '#f7f7f4')
             d3.selectAll('#timeline').style('display', 'unset')
             twinklecvTitle()
@@ -89,16 +89,16 @@ function cvTimeline() {
         .style('z-index', 2)
 
     const center = parentWidth / 2
-    const cvTitleFontSize = Math.max(remSize * 1.5, Math.min(parentWidth - remSize * 2, parentHeight) / cvTitle.length)
+    const cvTitleFontSize = Math.max(remSize * 2, Math.min(parentWidth - remSize * 2, parentHeight) / cvTitle.length)
 
     const cvTitleGroup = cvTitleSvg.append('g')
         .attr('class', 'cvcvTitle')
         .selectAll('text')
         .data(cvTitle)
         .enter().append('text')
-            .style('font-family', 'Trebuchet MS, Helvetica, sans-serif')
+            .style('font-family', '"Palatino Linotype", "Book Antiqua", Palatino, serif')
             .attr('text-anchor', 'middle')
-            .style('font-weight', 'bold')
+            .style('font-weight', 'lighter')
             .style('font-size', `${cvTitleFontSize}px`)
             .attr('height', 10)
             .attr('width', 10)
@@ -128,7 +128,7 @@ function cvTimeline() {
                 setTimeout(function() {
                     el.transition()
                         .duration(500)
-                        .style('fill', '#303030')
+                        .style('fill', '#330000')
                 }, 250)
             })
 
@@ -137,7 +137,7 @@ function cvTimeline() {
         .style('height', `${parentHeight}px`)
         .style('width', `${parentWidth}px`)
         .attr('preserveAspectRatio', 'xMinYMin meet')
-        .style('z-index', 2)
+        .style('z-index', 1)
 
     const sideMargin = parentWidth * 0.025;
     const topMargin = parentHeight * 0.1;
@@ -169,15 +169,17 @@ function cvTimeline() {
         .selectAll('text')
             .attr('text-anchor', 'middle')
             .attr('class', (d, i) => `titleLetter${d.index + 2}`)
-            .style('fill', '#303030')
+            .style('fill', '#330000')
             .style('font-family', 'sans-serif')
             .style('font-size', `${0.5 * remSize}px`)
+            .style('font-weight', 'bold')
+            .style('letter-spacing', '0.15rem')
 
     xAxisElements.selectAll('path, line')
         .style('shape-rendering', 'crispEdges');
 
     svg.select('path.domain')
-        .style('stroke', '#303030')
+        .style('stroke', '#330000')
         .style('stroke-opacity', 0.1)
         .attr('stroke-width', `${remSize / 10}px`)
 
