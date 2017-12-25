@@ -106,7 +106,7 @@ const cvEvents = [
     },
     {
         event: 'Bad Girl Ventures entrepreneurship classes',
-        daterange: ['03/2013', '05/2013'],
+        daterange: ['01/2013', '05/2013'],
         type: 'civic'
     },
     {
@@ -123,6 +123,11 @@ const cvEvents = [
         event: 'After school music program coordinater and teacher',
         daterange: ['09/2013', '05/2014'],
         type: 'musicTeaching'
+    },
+    {
+        event: 'Played with Go Ahead Jesuits (avant garde brass-percussion ensemble',
+        daterange: ['11/2013', '05/2014'],
+        type: 'music'
     },
     {
         event: 'Legacy Initiative of Utah volunteer',
@@ -153,6 +158,11 @@ const cvEvents = [
         event: 'Resource development research intern at United Way',
         daterange: ['10/2014', '05/2015'],
         type: 'civic'
+    },
+    {
+        event: 'Member of Twillinger Dispatches (jazz metal fusion band)',
+        daterange: ['11/2014', '06/2016'],
+        type: 'music'
     },
     {
         event: 'Graduate assistant',
