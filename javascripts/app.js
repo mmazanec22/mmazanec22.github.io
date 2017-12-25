@@ -172,7 +172,7 @@ function cvTimeline() {
             .attr('class', (d, i) => `titleLetter${d.index + 2}`)
             .style('fill', '#3300000')
             .style('font-family', 'sans-serif')
-            .style('font-size', `${0.5 * remSize}px`)
+            .style('font-size', `${0.75 * remSize}px`)
             .style('font-weight', 'bold')
             .style('letter-spacing', '0.05rem')
 
@@ -214,7 +214,7 @@ function cvTimeline() {
 
     const paddingBetweenRows = remSize;
     const tooltip = makeToolTip()
-    const defaultEventRectFillOpacity = 0.25
+    const defaultEventRectFillOpacity = 0.45
 
     svg.append('g')
         .attr('class', 'events')
@@ -226,22 +226,23 @@ function cvTimeline() {
             .attr('width', function(d) {
                 return x(dateFromSlashy(d.daterange[1])) - x(dateFromSlashy(d.daterange[0]))
             })
-            .attr('height', remSize / 2)
+            .attr('height', remSize)
             .attr('x', d => x(dateFromSlashy(d.daterange[0])))
             .attr('y', function(d, i) {
                 d.y = d.layerNum * (remSize / 2) + (1 + d.layerNum) * paddingBetweenRows
                 return d.y
             })
-            .attr('rx', remSize / 4)
-            .attr('ry', remSize / 4)
+            .attr('rx', remSize / 2)
+            .attr('ry', remSize / 2)
             .style('fill', d => eventColors[d.layerNum])
             .style('stroke', d => eventColors[d.layerNum])
+            .style('stroke-width', '0.5px')
 
     d3.select('g.events').selectAll('rect')
         .on('mousemove', function(d) {
             tooltip.text(d.event)
             moveToolTip(tooltip)
-            d3.select(this).style('fill-opacity', 0.5)
+            d3.select(this).style('fill-opacity', 0.75)
         })
         .on('mouseout', function(d) {
             tooltip.style('display', 'none')
@@ -409,7 +410,7 @@ function makeToolTip() {
     const tooltip = d3.select('body').append('div')
         .attr('class', 'tooltip')
         .style('position', 'absolute')
-        .style('font-size', '0.75rem')
+        .style('font-size', '1rem')
         .style('z-index', '1')
         .style('font-family', 'Trebuchet MS, Helvetica, sans-serif')
 
