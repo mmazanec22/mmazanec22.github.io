@@ -29,6 +29,21 @@ const eventTypeColorCode = {
     otherThing: '#d6149f',
 }
 
+const yearBlurbs = {
+    2017: 'My first year working in the tech industry.',
+    2016: 'Started Dev Bootcamp as I furiously finished up my capstone.  Moved to Chicago.',
+    2015: 'Made the pivot toward civic tech, enrolled in additional classes.',
+    2014: 'Moved back to Cleveland to pursue MPA.',
+    2013: 'Quit teaching job, bicycle shop, moved to Utah',
+    2012: '4K for Cancer, first career-track job out of college',
+    2011: 'Taught summer school, bicycle trip, senior recital, graduation',
+    2010: 'Bicycled down California coast, au pair in Spain',
+    2009: '',
+    2008: 'Moved from NL to Oberlin',
+    2007: '',
+    2006: 'Started at Interlochen Arts Academy'
+}
+
 const cvEvents = [
     {
         event: 'Private trumpet lesson teacher and freelance musician',
