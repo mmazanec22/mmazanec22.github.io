@@ -86,8 +86,9 @@ function cvTimeline() {
         .style('width', `${parentWidth}px`)
         .attr('preserveAspectRatio', 'xMinYMin meet')
         .style('z-index', 2)
+        .style('opacity', '0.8')
 
-    const center = parentWidth / 2
+    const center = parentWidth / 2.0
     const cvTitleFontSize = Math.max(remSize * 2, Math.min(parentWidth - remSize * 2.5, parentHeight) / cvTitle.length)
 
     const cvTitleGroup = cvTitleSvg.append('g')
@@ -105,15 +106,15 @@ function cvTimeline() {
             .text(d => d)
             .attr('class', (d, i) => `titleLetter${i}`)
             .attr('x', function(d, i) {
-                const distBtwnLetters = cvTitleFontSize * 0.7
+                const distBtwnLetters = cvTitleFontSize * 1.6
                 const offsetRL = cvTitle.length % 2 === 0 ? distBtwnLetters / 2.0 : 0
-                const cvTitleCenter = cvTitle.length / 2.0
-                if (i === cvTitleCenter) {
+                const centerIndex = cvTitle.length / 2.0 - 0.5
+                if (i === centerIndex) {
                     return center
-                } else if (i < cvTitleCenter) {
-                    return center - offsetRL - (cvTitleCenter - i) * distBtwnLetters
-                } else if (i > cvTitleCenter) {
-                    return center + offsetRL + (i - cvTitleCenter) * distBtwnLetters
+                } else if (i < centerIndex) {
+                    return center - offsetRL * (centerIndex - i)
+                } else if (i > centerIndex) {
+                    return center + offsetRL * (i - centerIndex)
                 }
             })
             .attr('y', cvTitleFontSize)
