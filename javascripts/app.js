@@ -156,7 +156,7 @@ function cvTimeline() {
     const xAxis = d3.axisTop()
         .scale(x)
         .ticks(d3.timeYear, 1)
-        .tickFormat(d => `${new Date(d).toLocaleDateString('en-US', {year: 'numeric'})}`);
+        .tickFormat(d => `${new Date(d).toLocaleDateString('en-US', {year: '2-digit'})}`);
 
     const xAxisElements = svg.append('g')
         .attr('class', 'x axis')
@@ -173,7 +173,7 @@ function cvTimeline() {
             .style('font-family', 'sans-serif')
             .style('font-size', `${0.5 * remSize}px`)
             .style('font-weight', 'bold')
-            .style('letter-spacing', '0.15rem')
+            .style('letter-spacing', '0.05rem')
 
     xAxisElements.selectAll('path, line')
         .style('shape-rendering', 'crispEdges');
@@ -478,8 +478,12 @@ function renderHexbins() {
     const dataset = [];
 
     let numPoints = (width * height) / 100
-    numPoints = width > 2000 ? numPoints * 3 : numPoints
     numPoints = width > 1400 ? numPoints * 2 : numPoints
+    if (width > 2000) {
+        numPoints = numPoints * 0.5;
+        minRadius = minRadius * 3.5;
+        maxRadius = maxRadius * 3;
+    }
     if (width < 450) {
         minRadius = minRadius * 0.75
         maxRadius = maxRadius  * 0.75

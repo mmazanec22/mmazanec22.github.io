@@ -38,13 +38,15 @@ a {
     height: 1.5rem;
 }
 
-.bio.link {
+.link {
     position: absolute;
+}
+
+.bio.link {
     right: 10.5vw;
 }
 
 .cv.link {
-    position: absolute;
     right: 1.5vw;
 }
 
@@ -107,6 +109,7 @@ a {
 
 #footer {
     background-color: #00ccc5;
+    z-index: 2;
 }
 
 #footer-table {
@@ -177,10 +180,19 @@ a {
         line-height: 1.75rem;
         position: relative;
     }
+    .bio.link {
+        top: -0.85rem;
+        right: 3rem;
+    }
+
+    .cv.link {
+        top: -0.85rem;
+        right: 0.15rem;
+    }
 }
 
 @media only screen and (min-width: 2000px) {
     html, body {
-        font-size: 1.5rem;
+        font-size: 32px;
     }
 }
