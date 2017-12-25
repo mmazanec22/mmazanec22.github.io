@@ -70,7 +70,7 @@ const cvEvents = [
         type: 'music'
     },
     {
-        event: 'Bicycle down California coast',
+        event: 'Solo bicycle tour down California coast',
         daterange: ['12/2009', '01/2010'],
         type: 'bicycle'
     },
