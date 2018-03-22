@@ -1,7 +1,7 @@
 html, body {
     height: 100vh;
     width: 100vw;
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-family: 'Alegreya Sans', sans-serif;
     margin: 0;
     overflow: scroll;
     padding: 0;
@@ -18,7 +18,6 @@ a {
 }
 
 .header-footer {
-    font-family: Verdana, Geneva, sans-serif;
     opacity: 0.7;
     z-index: 1;
     width: 100vw;
@@ -28,11 +27,11 @@ a {
     position: absolute;
     right: 3vw;
     text-align: right;
-    font-size: 0.9rem;
+    font-size: 1rem;
     cursor: pointer;
-    letter-spacing: .2rem;
+    letter-spacing: .3rem;
     font-weight: lighter;
-    top: 0.75rem;
+    top: 1.5rem;
     color: #00ccc5;
     display: inline-block;
     height: 1.5rem;
@@ -66,7 +65,7 @@ a {
     position: fixed;
     bottom: 0pt;
     left: 0pt;
-    opacity: 0.8;
+    opacity: 0.5;
 }
 
 #info {
@@ -78,25 +77,40 @@ a {
     width: 70vw;
     color: #330000;
     letter-spacing: 2px;
-    font-size: 1.15rem;
-    line-height: 1.65rem;
+    font-size: 1.35rem;
+    line-height: 1.75rem;
 }
 
-#info .bio {
+.bio {
     position: absolute;
     width: 100%;
     opacity: 1;
 }
 
 .bio h1 {
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: 'Rammetto One', cursive;
     color: #00ccc5;
-    font-weight: bold;
-    letter-spacing: 1rem;
+    font-weight: lighter;
+    letter-spacing: 0.8rem;
     text-align: center;
     position: relative;
     font-size: 3.25rem;
     line-height: 3.25rem;
+}
+
+.bio p {
+    padding: 1% 10%;
+    width: 80%;
+}
+
+.bio span {
+    font-family: 'Rammetto One', cursive;
+    color: #fed762;
+    font-weight: lighter;
+}
+
+.bio #weirdo span {
+    color: orange;
 }
 
 #timeline{
@@ -179,6 +193,10 @@ a {
         padding-bottom: 0rem;
         line-height: 1.75rem;
         position: relative;
+    }
+    .bio p {
+        font-size: 1.25rem;
+        line-height: 1.5rem;
     }
     .bio.link {
         top: -0.85rem;

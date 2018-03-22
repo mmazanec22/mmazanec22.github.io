@@ -96,7 +96,7 @@ function cvTimeline() {
         .selectAll('text')
         .data(cvTitle)
         .enter().append('text')
-            .style('font-family', 'Verdana, Geneva, sans-serif')
+            .style('font-family', 'Alegreya Sans, sans-serif')
             .style('fill', '#330000')
             .attr('text-anchor', 'middle')
             .style('font-weight', 'bold')
@@ -139,6 +139,7 @@ function cvTimeline() {
         .style('width', `${parentWidth}px`)
         .attr('preserveAspectRatio', 'xMinYMin meet')
         .style('z-index', 1)
+        .attr('role', 'group')
 
     const sideMargin = parentWidth * 0.025;
     const topMargin = parentHeight * 0.1;
@@ -218,6 +219,7 @@ function cvTimeline() {
 
     svg.append('g')
         .attr('class', 'events')
+        .attr('role', 'list')
         .selectAll('rect')
         .data(cvEvents)
         .enter().append('rect')
@@ -237,8 +239,11 @@ function cvTimeline() {
             .style('fill', d => eventColors[d.layerNum])
             .style('stroke', d => eventColors[d.layerNum])
             .style('stroke-width', '0.5px')
+            .attr('tabindex', 0)
+            .attr('alt', d => `${d.daterange}: ${d.event}`)
 
     d3.select('g.events').selectAll('rect')
+        .attr('role', 'listitem')
         .on('mousemove', function(d) {
             tooltip.text(d.event)
             moveToolTip(tooltip)
