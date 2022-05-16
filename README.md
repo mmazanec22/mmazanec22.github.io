@@ -5,6 +5,8 @@ This is my personal website. I update it very infrequently. It's probably out of
 ## To do
 I may or may not ever get to writing any of this.
 
+* Use jekyll maybe?
+* Use tailwind probably?
 * Add headshot
 * Add bio
 * Add experience
