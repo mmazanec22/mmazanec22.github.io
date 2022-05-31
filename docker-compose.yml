@@ -3,11 +3,7 @@ version: "3.9"
 services:
   jeykll:
     build: jekyll-app
-    # volumes:
-    #   - jekyll-app:/jekyll-app
     ports:
       - "4000:4000"
     environment:
       - JEKYLL_ROOTLESS=true
-# volumes:
-#   jekyll-app:
