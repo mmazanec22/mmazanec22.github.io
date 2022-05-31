@@ -2,10 +2,15 @@
 
 This is my personal website. I update it very infrequently. It's probably out of date.
 
+## To develop
+* Make sure Gemfile.lock is writable (`chmod a+w jekyll-app/Gemfile.lock`)
+* `docker-compose up --build`
+
 ## To do
 I may or may not ever get to writing any of this.
 
-* Use [jekyll](https://github.com/envygeeks/jekyll-docker)
+* Use jekyll
+    * Dockerize
 * Use tailwind probably?
 * Add headshot
 * Add bio
