@@ -9,7 +9,10 @@ This is my personal website. I update it very infrequently. It's probably out of
 ## To do
 I may or may not ever get to writing any of this.
 
-* Use tailwind probably?
+* Setup
+    * Use scss and set up basic style framework for semantic elements
+    * Style header, footer, content
+    * Structure pages
 * Add headshot
 * Add bio
 * Add experience
