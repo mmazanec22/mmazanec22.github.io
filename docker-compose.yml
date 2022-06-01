@@ -1,10 +1,10 @@
 version: "3.9"
    
 services:
-  jeykll:
+  jekyll:
     build: jekyll-app
     ports:
       - "4000:4000"
     environment:
-      # - JEKYLL_ROOTLESS=true
-      - TAILWIND_DISABLE_TOUCH=true
+      - JEKYLL_ENV=production
+      - JEKYLL_ROOTLESS=true
