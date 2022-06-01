@@ -5,6 +5,7 @@ services:
     build: jekyll-app
     ports:
       - "4000:4000"
+      - "35729:35729"
     environment:
       - JEKYLL_ENV=production
       - JEKYLL_ROOTLESS=true

@@ -4,4 +4,5 @@ COPY . .
 RUN bundle install
 RUN npm install
 EXPOSE 4000
-CMD ["jekyll", "serve", "--incremental", "--livereload", "--drafts", "--trace"]
+EXPOSE 35729
+CMD ["jekyll", "serve", "--livereload"]
