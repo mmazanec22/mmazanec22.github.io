@@ -50,6 +50,7 @@ exclude:
   - postcss.config.js
   - tailwind.config.js
   - package-lock.json
+  - assets/css/tailwind.scss
 #   - .sass-cache/
 #   - .jekyll-cache/
 #   - gemfiles/
@@ -60,3 +61,7 @@ exclude:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+keep_files:
+  - assets/css/tailwind.css
+  - assets/css/tailwind.css.map
