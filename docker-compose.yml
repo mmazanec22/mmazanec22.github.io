@@ -6,4 +6,5 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - JEKYLL_ROOTLESS=true
+      # - JEKYLL_ROOTLESS=true
+      - TAILWIND_DISABLE_TOUCH=true
